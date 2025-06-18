@@ -7,11 +7,20 @@
 
 <div class="row">
     <div class="col-md-8">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form action="{{ route('orders.store') }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="notes" class="form-label">Special Instructions</label>
-                <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                <textarea class="form-control" id="notes" name="notes" rows="3">{{ old('notes') }}</textarea>
             </div>
             
             <h4>Selected Items</h4>
