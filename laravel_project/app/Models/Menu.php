@@ -12,7 +12,8 @@ class Menu extends Model
         'price',
         'category',
         'image',
-        'is_available'
+        'is_available',
+        'image_url'
     ];
 
     public function orderItems()
