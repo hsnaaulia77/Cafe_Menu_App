@@ -15,39 +15,44 @@ class MenuSeeder extends Seeder
     {
         $menus = [
             [
-                'name' => 'Espresso',
-                'description' => 'Strong coffee served in a small cup',
-                'price' => 3.50,
-                'category' => 'Hot Coffee',
-                'is_available' => true
+                'nama' => 'Espresso',
+                'deskripsi' => 'Strong coffee served in a small cup',
+                'harga' => 3500,
+                'kategori' => 'Makanan',
+                'status' => 'Tersedia',
+                'gambar' => null
             ],
             [
-                'name' => 'Cappuccino',
-                'description' => 'Espresso with steamed milk and foam',
-                'price' => 4.50,
-                'category' => 'Hot Coffee',
-                'is_available' => true
+                'nama' => 'Cappuccino',
+                'deskripsi' => 'Espresso with steamed milk and foam',
+                'harga' => 4500,
+                'kategori' => 'Makanan',
+                'status' => 'Tersedia',
+                'gambar' => null
             ],
             [
-                'name' => 'Latte',
-                'description' => 'Espresso with steamed milk',
-                'price' => 4.00,
-                'category' => 'Hot Coffee',
-                'is_available' => true
+                'nama' => 'Latte',
+                'deskripsi' => 'Espresso with steamed milk',
+                'harga' => 4000,
+                'kategori' => 'Makanan',
+                'status' => 'Tersedia',
+                'gambar' => null
             ],
             [
-                'name' => 'Iced Coffee',
-                'description' => 'Chilled coffee served with ice',
-                'price' => 4.00,
-                'category' => 'Cold Coffee',
-                'is_available' => true
+                'nama' => 'Iced Coffee',
+                'deskripsi' => 'Chilled coffee served with ice',
+                'harga' => 4000,
+                'kategori' => 'Makanan',
+                'status' => 'Tersedia',
+                'gambar' => null
             ],
             [
-                'name' => 'Croissant',
-                'description' => 'Buttery, flaky pastry',
-                'price' => 3.00,
-                'category' => 'Pastries',
-                'is_available' => true
+                'nama' => 'Croissant',
+                'deskripsi' => 'Buttery, flaky pastry',
+                'harga' => 3000,
+                'kategori' => 'Makanan',
+                'status' => 'Tersedia',
+                'gambar' => null
             ]
         ];
 

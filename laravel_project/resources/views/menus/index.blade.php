@@ -1,39 +1,45 @@
-<x-app-layout>
-<div class="row mb-4">
-    <div class="col-12">
-        <form method="GET" action="" class="d-flex align-items-center">
-            <label for="category" class="me-2 mb-0">Kategori:</label>
-            <select name="category" id="category" class="form-select w-auto me-2">
-                <option value="">Semua</option>
-                <option value="Hot Coffee" {{ request('category') == 'Hot Coffee' ? 'selected' : '' }}>Hot Coffee</option>
-                <option value="Cold Coffee" {{ request('category') == 'Cold Coffee' ? 'selected' : '' }}>Cold Coffee</option>
-                <option value="Pastries" {{ request('category') == 'Pastries' ? 'selected' : '' }}>Pastries</option>
-            </select>
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </form>
-    </div>
-</div>
-<div class="row">
-    <div class="col-12">
-        <h1 class="mb-4">Our Menu</h1>
-    </div>
-</div>
+@extends('layouts.app')
 
-<div class="row">
-    @foreach($menus as $menu)
-    <div class="col-md-4 mb-4">
-        <div class="card">
-            @if($menu->image)
-                <img src="{{ asset('storage/' . $menu->image) }}" class="card-img-top" alt="{{ $menu->name }}">
-            @endif
-            <div class="card-body">
-                <h5 class="card-title">{{ $menu->name }}</h5>
-                <p class="card-text">{{ $menu->description }}</p>
-                <p class="card-text"><strong>Price: ${{ number_format($menu->price, 2) }}</strong></p>
-                <a href="{{ route('menus.show', $menu) }}" class="btn btn-primary">View Details</a>
-            </div>
-        </div>
-    </div>
-    @endforeach
+@section('content')
+<div class="container">
+    <h2>Daftar Menu</h2>
+    <a href="{{ route('menus.create') }}" class="btn btn-success mb-3">Tambah Menu</a>
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Status</th>
+                <th>Gambar</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($menus as $menu)
+            <tr>
+                <td>{{ $menu->nama }}</td>
+                <td>{{ $menu->kategori }}</td>
+                <td>Rp{{ number_format($menu->harga, 0, ',', '.') }}</td>
+                <td>{{ $menu->status }}</td>
+                <td>
+                    @if($menu->gambar)
+                        <img src="{{ asset('storage/' . $menu->gambar) }}" width="50">
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('menus.edit', $menu->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                    <form action="{{ route('menus.destroy', $menu->id) }}" method="POST" style="display:inline;">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus menu ini?')">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
-</x-app-layout>
+@endsection

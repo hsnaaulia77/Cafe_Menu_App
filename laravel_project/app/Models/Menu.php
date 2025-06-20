@@ -7,13 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
     protected $fillable = [
-        'name',
-        'description',
-        'price',
-        'category',
-        'image',
-        'is_available',
-        'image_url'
+        'nama',
+        'deskripsi',
+        'harga',
+        'kategori',
+        'gambar',
+        'status'
     ];
 
     public function orderItems()
