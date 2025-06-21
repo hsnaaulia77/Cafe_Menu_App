@@ -8,17 +8,61 @@ use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $menus = Menu::all();
+        $query = Menu::query();
 
-        if (auth()->check() && auth()->user()->is_admin) {
-            // Untuk admin
-            return view('menus.index', compact('menus'));
-        } else {
-            // Untuk user biasa
-            return view('menus.user_index', compact('menus'));
+        // Filter kategori
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
         }
+
+        // Filter status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Pencarian nama
+        if ($request->filled('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter harga minimum
+        if ($request->filled('harga_min')) {
+            $query->where('harga', '>=', $request->harga_min);
+        }
+
+        // Filter harga maksimum
+        if ($request->filled('harga_max')) {
+            $query->where('harga', '<=', $request->harga_max);
+        }
+
+        // Sorting
+        switch ($request->sort) {
+            case 'nama_asc':
+                $query->orderBy('nama', 'asc');
+                break;
+            case 'nama_desc':
+                $query->orderBy('nama', 'desc');
+                break;
+            case 'harga_asc':
+                $query->orderBy('harga', 'asc');
+                break;
+            case 'harga_desc':
+                $query->orderBy('harga', 'desc');
+                break;
+            case 'kategori_asc':
+                $query->orderBy('kategori', 'asc');
+                break;
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+
+        // Pagination dengan query string
+        $menus = $query->paginate(12)->withQueryString();
+
+        return view('menus.index', compact('menus'));
     }
 
     public function create()
@@ -32,7 +76,7 @@ class MenuController extends Controller
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric',
-            'kategori' => 'required|in:Makanan,Minuman,Camilan',
+            'kategori' => 'required|in:Makanan,Minuman,Snack',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'required|in:Tersedia,Tidak tersedia',
         ]);
@@ -57,7 +101,7 @@ class MenuController extends Controller
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric',
-            'kategori' => 'required|in:Makanan,Minuman,Camilan',
+            'kategori' => 'required|in:Makanan,Minuman,Snack',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'required|in:Tersedia,Tidak tersedia',
         ]);

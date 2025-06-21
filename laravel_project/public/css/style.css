@@ -1,0 +1,36 @@
+/* Custom styles */
+:root {
+    --off-white: #faf5f0;
+    --stone-gray: #a6a6a6;
+    --deep-brown: #362c2a;
+    --blue-glass: #7fa7b2;
+    --sand: #d8c3ac;
+}
+
+.card {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.navbar {
+    margin-bottom: 2rem;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.btn-primary {
+    background-color: var(--deep-brown);
+    border-color: var(--deep-brown);
+}
+
+.btn-primary:hover {
+    background-color: var(--stone-gray);
+    border-color: var(--stone-gray);
+}
