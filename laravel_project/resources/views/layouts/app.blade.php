@@ -16,6 +16,10 @@
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
         
+        @php
+            $role = auth()->user()->role ?? null;
+        @endphp
+
         <style>
             :root {
                 --off-white: #faf5f0;
@@ -26,8 +30,12 @@
             }
 
             /* Override AdminLTE Primary Color */
-            .btn-primary, .card-primary.card-outline, .btn-primary:hover {
+            .btn-primary, .btn-primary:hover {
                 background-color: var(--deep-brown) !important;
+                border-color: var(--stone-gray) !important;
+            }
+            .card-primary.card-outline {
+                background-color: #fff !important;
                 border-color: var(--stone-gray) !important;
             }
             .btn-primary:focus, .btn-primary.focus {
@@ -35,9 +43,13 @@
             }
 
             /* Sidebar Color Scheme */
-            [class*=sidebar-dark-] {
-                background-color: var(--deep-brown);
-            }
+            @if($role === 'admin')
+                [class*=sidebar-dark-] { background-color: var(--deep-brown) !important; }
+            @elseif($role === 'customer')
+                [class*=sidebar-dark-] { background-color: #2a3f54 !important; }
+            @elseif($role === 'cashier')
+                [class*=sidebar-dark-] { background-color: #1b5e20 !important; }
+            @endif
             .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
                 background-color: var(--stone-gray);
             }
@@ -53,6 +65,14 @@
                 background-color: var(--deep-brown);
                 color: white;
             }
+
+            /* Custom Small Box Colors */
+            .bg-coffee-1 { background-color: var(--sand) !important; color: var(--deep-brown) !important; }
+            .bg-coffee-2 { background-color: var(--blue-glass) !important; color: white !important; }
+            .bg-coffee-3 { background-color: var(--stone-gray) !important; color: var(--deep-brown) !important; }
+            .bg-coffee-4 { background-color: var(--deep-brown) !important; color: white !important; }
+            .bg-coffee-1 .small-box-footer, .bg-coffee-3 .small-box-footer { color: var(--deep-brown) !important; }
+            .bg-coffee-2 .small-box-footer, .bg-coffee-4 .small-box-footer { color: white !important; }
         </style>
         @stack('styles')
     </head>
@@ -108,7 +128,7 @@
             <!-- Main Sidebar Container -->
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
-                <a href="{{ route('dashboard') }}" class="brand-link">
+                <a href="{{ Auth::check() && Auth::user()->role == 'admin' ? route('admin.dashboard') : route('dashboard') }}" class="brand-link">
                     <i class="fas fa-coffee brand-image img-circle elevation-3" style="opacity: .8"></i>
                     <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
                 </a>
@@ -121,50 +141,32 @@
                             <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info">
-                            <a href="#" class="d-block">{{ Auth::user()->name ?? 'Admin' }}</a>
+                            <a href="#" class="d-block">{{ optional(Auth::user())->name ?? 'Admin' }}</a>
                         </div>
                     </div>
 
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <li class="nav-item">
-                                <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Dashboard</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('menus.index') }}" class="nav-link {{ request()->routeIs('menus.*') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-utensils"></i>
-                                    <p>Menu Management</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-shopping-cart"></i>
-                                    <p>Orders</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-users"></i>
-                                    <p>Customers</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-chart-bar"></i>
-                                    <p>Reports</p>
-                                </a>
-                            </li>
+                            @if($role === 'admin')
+                                <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p></a></li>
+                                <li class="nav-item"><a href="{{ route('admin.menus.index') }}" class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}"><i class="nav-icon fas fa-utensils"></i><p>Menu Management</p></a></li>
+                                <li class="nav-item"><a href="{{ route('admin.kategori_menu.index') }}" class="nav-link {{ request()->routeIs('admin.kategori_menu.*') ? 'active' : '' }}"><i class="nav-icon fas fa-list"></i><p>Kategori Menu</p></a></li>
+                                <li class="nav-item"><a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"><i class="nav-icon fas fa-users"></i><p>Manajemen User</p></a></li>
+                                <li class="nav-item"><a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}"><i class="nav-icon fas fa-shopping-cart"></i><p>Manajemen Order</p></a></li>
+                                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-chart-bar"></i><p>Laporan Transaksi</p></a></li>
+                            @elseif($role === 'customer')
+                                <li class="nav-item"><a href="{{ route('menu.browse') }}" class="nav-link"><i class="nav-icon fas fa-coffee"></i><p>Daftar Menu</p></a></li>
+                                <li class="nav-item"><a href="{{ route('cart.index') }}" class="nav-link"><i class="nav-icon fas fa-shopping-cart"></i><p>Keranjang</p></a></li>
+                                <li class="nav-item"><a href="{{ route('orders.index') }}" class="nav-link"><i class="nav-icon fas fa-history"></i><p>Riwayat Pemesanan</p></a></li>
+                                <li class="nav-item"><a href="{{ route('profile.edit') }}" class="nav-link"><i class="nav-icon fas fa-user"></i><p>Profil</p></a></li>
+                            @elseif($role === 'cashier')
+                                <li class="nav-item"><a href="{{ route('cashier.orders.index') }}" class="nav-link"><i class="nav-icon fas fa-inbox"></i><p>Pesanan Masuk</p></a></li>
+                                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-cash-register"></i><p>Pembayaran</p></a></li>
+                                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-history"></i><p>Riwayat Transaksi</p></a></li>
+                            @endif
                             <li class="nav-header">SETTINGS</li>
-                            <li class="nav-item">
-                                <a href="{{ route('profile.edit') }}" class="nav-link">
-                                    <i class="nav-icon fas fa-user"></i>
-                                    <p>Profile</p>
-                                </a>
-                            </li>
+                            <li class="nav-item"><a href="{{ route('profile.edit') }}" class="nav-link"><i class="nav-icon fas fa-user"></i><p>Profile</p></a></li>
                             <li class="nav-item">
                                 <form method="POST" action="{{ route('logout') }}" id="logout-form">
                                     @csrf
@@ -183,30 +185,7 @@
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1>@yield('title', 'Dashboard')</h1>
-                            </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                                    <li class="breadcrumb-item active">@yield('title', 'Dashboard')</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div><!-- /.container-fluid -->
-                </section>
-
-                <!-- Main content -->
-                <section class="content">
-                    <div class="container-fluid">
                 @yield('content')
-                    </div><!-- /.container-fluid -->
-                </section>
-                <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
 
@@ -225,5 +204,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- AdminLTE App -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
+        <!-- ChartJS -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        @stack('scripts')
     </body>
 </html>

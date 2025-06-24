@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('menus', function (Blueprint $table) {
-            $table->string('nama')->after('id');
+            $table->string('nama')->nullable()->after('id');
             $table->text('deskripsi')->nullable();
-            $table->decimal('harga', 10, 2)->default(0);
-            $table->enum('kategori', ['Makanan', 'Minuman', 'Camilan'])->default('Makanan');
+            $table->decimal('harga', 10, 2)->nullable();
+            $table->enum('kategori', ['Makanan', 'Minuman', 'Camilan'])->nullable();
             $table->string('gambar')->nullable();
-            $table->enum('status', ['Tersedia', 'Tidak tersedia'])->default('Tersedia');
+            $table->enum('status', ['Tersedia', 'Tidak tersedia'])->nullable();
         });
     }
 

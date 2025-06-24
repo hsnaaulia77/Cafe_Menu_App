@@ -89,8 +89,8 @@
                         <p class="card-text">Akses dari mana saja. Interface yang responsif untuk desktop, tablet, dan mobile.</p>
                     </div>
                 </div>
-            </div>
-            
+        </div>
+
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body text-center p-4">
