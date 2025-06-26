@@ -160,6 +160,12 @@
                                     <p>Kategori</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('tables.index') }}" class="nav-link {{ request()->routeIs('tables.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-chair"></i>
+                                    <p>Meja</p>
+                                </a>
+                            </li>
                             @if($role === 'admin')
                                 <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p></a></li>
                                 <li class="nav-item"><a href="{{ route('admin.menus.index') }}" class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}"><i class="nav-icon fas fa-utensils"></i><p>Menu Management</p></a></li>

@@ -67,7 +67,7 @@
     <div class="register-left">
         <div class="register-form-box">
             <div class="register-title">Register Warkopsans</div>
-            <form action="{{ route('register') }}" method="post">
+            <form method="POST" action="{{ route('register') }}">
                 @csrf
 
                 <div class="input-group mb-3">
