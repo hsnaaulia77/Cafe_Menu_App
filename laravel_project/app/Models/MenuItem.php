@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class MenuItem extends Model
+{
+    protected $fillable = [
+        'nama', 'kategori_id', 'deskripsi', 'harga', 'gambar', 'status', 'stok'
+    ];
+
+    public function kategori()
+    {
+        return $this->belongsTo(\App\Models\Category::class, 'kategori_id');
+    }
+}

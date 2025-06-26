@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\MenuItemController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,5 +29,6 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 
 Route::resource('categories', CategoryController::class)->middleware('auth');
 Route::resource('tables', TableController::class)->middleware('auth');
+Route::resource('menu_items', MenuItemController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';
