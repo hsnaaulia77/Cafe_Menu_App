@@ -63,6 +63,11 @@
 @endpush
 
 @section('body')
+@if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif
 <div class="full-login-wrapper">
     <div class="login-left">
         <div class="login-title">Login Warkopsans</div>
