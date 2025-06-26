@@ -29,8 +29,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|string|max:255']);
-        Category::create($request->only('name'));
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:categories,slug',
+            'description' => 'nullable|string',
+            'status' => 'required|in:tersedia,tidak tersedia',
+        ]);
+        Category::create($request->only('name', 'slug', 'description', 'status'));
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil ditambahkan!');
     }
 
@@ -55,9 +60,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|in:aktif,nonaktif',
+        ]);
         $category = Category::findOrFail($id);
-        $category->update($request->only('name'));
+        $category->update($request->only('name', 'description', 'status'));
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil diupdate!');
     }
 

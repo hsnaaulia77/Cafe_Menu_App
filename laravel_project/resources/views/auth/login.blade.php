@@ -68,6 +68,11 @@
         {{ session('status') }}
     </div>
 @endif
+@if ($errors->has('email'))
+    <div class="alert alert-danger">
+        {{ $errors->first('email') }}
+    </div>
+@endif
 <div class="full-login-wrapper">
     <div class="login-left">
         <div class="login-title">Login Warkopsans</div>
@@ -95,6 +100,12 @@
 
                 <button type="submit" class="btn btn-primary btn-block">Log in</button>
             </form>
+
+            <div class="mt-3 text-center" style="background: #fff8dc; padding: 10px; border-radius: 6px;">
+                <a href="{{ route('password.request') }}">Lupa kata sandi Anda?</a>
+                <br>
+                <span>Belum punya akun? <a href="{{ route('register') }}">Daftar sekarang.</a></span>
+            </div>
         </div>
     </div>
     <div class="login-right"></div>

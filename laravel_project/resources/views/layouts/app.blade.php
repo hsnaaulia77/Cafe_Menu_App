@@ -198,7 +198,7 @@
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <main>
-                    @yield('content')
+                @yield('content')
                 </main>
             </div>
             <!-- /.content-wrapper -->
@@ -214,8 +214,8 @@
 
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- Bootstrap 4 -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap 5 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- AdminLTE App -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
         <!-- ChartJS -->

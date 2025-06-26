@@ -107,6 +107,9 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-block">Register</button>
+                <div class="mt-3 text-center" style="background: #fff8dc; padding: 10px; border-radius: 6px;">
+                    Sudah punya akun? <a href="{{ route('login') }}">Login</a>
+                </div>
             </form>
         </div>
     </div>
