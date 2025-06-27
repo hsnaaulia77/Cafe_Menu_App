@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css">
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="/vendor/fontawesome-free/css/all.min.css">
         
         @php
             $role = auth()->user()->role ?? null;
@@ -170,6 +171,18 @@
                                 <a href="{{ route('menu_items.index') }}" class="nav-link {{ request()->routeIs('menu_items.*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-hamburger"></i>
                                     <p>Menu Item</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('orders.index') }}" class="nav-link {{ request()->routeIs('orders.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-shopping-cart"></i>
+                                    <p>Order</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('promotions.index') }}" class="nav-link {{ request()->routeIs('promotions.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-bullhorn"></i>
+                                    <p>Promosi</p>
                                 </a>
                             </li>
                             @if($role === 'admin')
