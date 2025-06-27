@@ -50,6 +50,26 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-primary">
+                <div class="inner">
+                    <h3>Rp {{ number_format($pendapatan) }}</h3>
+                    <p>Pendapatan Hari Ini</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <a href="{{ route('orders.index') }}" class="btn btn-primary mr-2"><i class="fas fa-shopping-cart"></i> Order</a>
+        <a href="{{ route('categories.index') }}" class="btn btn-success mr-2"><i class="fas fa-list"></i> Kategori</a>
+        <a href="{{ route('tables.index') }}" class="btn btn-warning mr-2"><i class="fas fa-chair"></i> Meja</a>
+        <a href="{{ route('menu_items.index') }}" class="btn btn-info mr-2"><i class="fas fa-hamburger"></i> Menu Item</a>
+        <a href="{{ route('reviews.index') }}" class="btn btn-secondary mr-2"><i class="fas fa-star"></i> Review</a>
+        <a href="{{ route('promotions.index') }}" class="btn btn-dark"><i class="fas fa-bullhorn"></i> Promosi</a>
     </div>
 
     <!-- Grafik dan Info -->

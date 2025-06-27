@@ -35,6 +35,13 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('phone')->nullable()->after('email');
+            $table->string('photo')->nullable()->after('phone');
+            $table->boolean('notif_email')->default(false)->after('photo');
+            $table->boolean('notif_promo')->default(false)->after('notif_email');
+        });
     }
 
     /**
@@ -45,5 +52,9 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['phone', 'photo', 'notif_email', 'notif_promo']);
+        });
     }
 };

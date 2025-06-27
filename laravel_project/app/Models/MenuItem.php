@@ -14,4 +14,9 @@ class MenuItem extends Model
     {
         return $this->belongsTo(\App\Models\Category::class, 'kategori_id');
     }
+
+    public function orderItems()
+    {
+        return $this->hasMany(\App\Models\OrderItem::class);
+    }
 }

@@ -8,44 +8,50 @@
             <i class="fas fa-plus"></i> Tambah
         </button>
     </div>
+    <form method="GET" action="" class="mb-3">
+        <div class="input-group" style="max-width: 350px;">
+            <input type="text" name="search" class="form-control" placeholder="Cari meja..." value="{{ request('search') }}">
+            <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
     <div class="mb-3 text-muted">Untuk mendata meja-meja yang tersedia di cafe.</div>
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
     <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-light border-bottom">
             <strong>Tabel Meja</strong>
         </div>
         <div class="card-body table-responsive">
-            <table class="table table-hover">
-                <thead>
+            <table class="table table-striped align-middle">
+                <thead class="thead-dark">
                     <tr>
-                        <th>#</th>
-                        <th>NOMOR MEJA</th>
-                        <th>KAPASITAS</th>
-                        <th>STATUS</th>
-                        <th>LOKASI</th>
-                        <th>ACTION</th>
+                        <th class="py-3 px-3 text-center">#</th>
+                        <th class="py-3 px-3 text-center">NOMOR MEJA</th>
+                        <th class="py-3 px-3 text-center">KAPASITAS</th>
+                        <th class="py-3 px-3 text-center">STATUS</th>
+                        <th class="py-3 px-3 text-center">LOKASI</th>
+                        <th class="py-3 px-3 text-center">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($tables as $table)
                     <tr>
-                        <td>{{ $loop->iteration + ($tables->currentPage()-1)*$tables->perPage() }}</td>
-                        <td>{{ $table->number }}</td>
-                        <td>{{ $table->kapasitas }}</td>
-                        <td>
-                            <span class="badge {{ $table->status == 'tersedia' ? 'badge-success' : 'badge-danger' }}">
-                                {{ ucfirst($table->status) }}
+                        <td class="text-center">{{ $loop->iteration + ($tables->currentPage()-1)*$tables->perPage() }}</td>
+                        <td class="text-center">{{ $table->number }}</td>
+                        <td class="text-center">{{ $table->kapasitas }}</td>
+                        <td class="text-center">
+                            <span class="badge {{ $table->status == 'tersedia' ? 'bg-success' : ($table->status == 'digunakan' ? 'bg-warning' : 'bg-secondary') }}">
+                                {{ $table->status == 'tersedia' ? 'Tersedia' : ($table->status == 'digunakan' ? 'Digunakan' : 'Tidak Tersedia') }}
                             </span>
                         </td>
-                        <td>{{ $table->lokasi ?? '-' }}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editDataModal{{ $table->id }}">
-                                <i class="fas fa-edit"></i> Edit
+                        <td class="text-center">{{ $table->lokasi ?? '-' }}</td>
+                        <td class="text-center">
+                            <button class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editDataModal{{ $table->id }}" title="Edit">
+                                <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $table->id }}">
-                                <i class="fas fa-trash"></i> Delete
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $table->id }}" title="Hapus">
+                                <i class="fas fa-trash"></i>
                             </button>
                         </td>
                     </tr>

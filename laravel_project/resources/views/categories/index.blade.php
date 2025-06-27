@@ -8,43 +8,49 @@
             <i class="fas fa-plus"></i> Tambah
         </button>
     </div>
+    <form method="GET" action="" class="mb-3">
+        <div class="input-group" style="max-width: 350px;">
+            <input type="text" name="search" class="form-control" placeholder="Cari kategori..." value="{{ request('search') }}">
+            <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
     <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-light border-bottom">
             <strong>Tabel Kategori</strong>
         </div>
         <div class="card-body table-responsive">
-            <table class="table table-hover">
-                <thead>
+            <table class="table table-striped align-middle">
+                <thead class="thead-dark">
                     <tr>
-                        <th>#</th>
-                        <th>NAMA</th>
-                        <th>SLUG</th>
-                        <th>DESKRIPSI</th>
-                        <th>STATUS</th>
-                        <th>AKSI</th>
+                        <th class="py-3 px-3 text-center">#</th>
+                        <th class="py-3 px-3 text-start">NAMA</th>
+                        <th class="py-3 px-3 text-start">SLUG</th>
+                        <th class="py-3 px-3 text-start">DESKRIPSI</th>
+                        <th class="py-3 px-3 text-center">STATUS</th>
+                        <th class="py-3 px-3 text-center">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($categories as $category)
                     <tr>
-                        <td>{{ $loop->iteration + ($categories->currentPage()-1)*$categories->perPage() }}</td>
-                        <td>{{ $category->name }}</td>
-                        <td>{{ $category->slug }}</td>
-                        <td>{{ $category->description }}</td>
-                        <td>
-                            <span class="badge {{ $category->status == 'tersedia' ? 'badge-success' : 'badge-danger' }}">
-                                {{ ucfirst($category->status) }}
+                        <td class="text-center">{{ $loop->iteration + ($categories->currentPage()-1)*$categories->perPage() }}</td>
+                        <td class="text-start">{{ $category->name }}</td>
+                        <td class="text-start">{{ $category->slug }}</td>
+                        <td class="text-start">{{ $category->description }}</td>
+                        <td class="text-center">
+                            <span class="badge {{ $category->status == 'tersedia' ? 'bg-success' : 'bg-secondary' }}">
+                                {{ $category->status == 'tersedia' ? 'Aktif' : 'Nonaktif' }}
                             </span>
                         </td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editDataModal{{ $category->id }}">
-                                <i class="fas fa-edit"></i> Edit
+                        <td class="text-center">
+                            <button class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editDataModal{{ $category->id }}" title="Edit">
+                                <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $category->id }}">
-                                <i class="fas fa-trash"></i> Hapus
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $category->id }}" title="Hapus">
+                                <i class="fas fa-trash"></i>
                             </button>
                         </td>
                     </tr>
