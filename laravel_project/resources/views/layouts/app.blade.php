@@ -180,6 +180,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('reviews.index') }}" class="nav-link {{ request()->routeIs('reviews.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-star"></i>
+                                    <p>Review</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('promotions.index') }}" class="nav-link {{ request()->routeIs('promotions.*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-bullhorn"></i>
                                     <p>Promosi</p>

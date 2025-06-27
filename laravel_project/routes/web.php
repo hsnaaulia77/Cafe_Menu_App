@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,5 +35,6 @@ Route::resource('tables', TableController::class)->middleware('auth');
 Route::resource('menu_items', MenuItemController::class)->middleware('auth');
 Route::resource('orders', OrderController::class)->middleware('auth');
 Route::resource('promotions', PromotionController::class)->middleware('auth');
+Route::resource('reviews', ReviewController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';
