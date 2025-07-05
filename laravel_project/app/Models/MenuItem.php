@@ -19,4 +19,9 @@ class MenuItem extends Model
     {
         return $this->hasMany(\App\Models\OrderItem::class);
     }
+
+    public function promotions()
+    {
+        return $this->belongsToMany(\App\Models\Promotion::class, 'menu_item_promotion');
+    }
 }

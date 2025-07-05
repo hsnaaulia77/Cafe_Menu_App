@@ -241,7 +241,7 @@
     <form action="{{ route('login') }}" method="post">
         @csrf
         <label class="form-label" for="email">EMAIL ADDRESS</label>
-        <input type="email" name="email" id="email" class="form-control" placeholder="your@email.com" required autofocus>
+        <input type="email" name="email" id="email" class="form-control" placeholder="your@email.com" required autofocus value="{{ old('email') }}">
         <label class="form-label" for="password">PASSWORD</label>
         <input type="password" name="password" id="password" class="form-control" placeholder="........" required>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">

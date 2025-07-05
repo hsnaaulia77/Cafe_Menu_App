@@ -19,4 +19,9 @@ class Promotion extends Model
         'tanggal_berakhir',
         'status',
     ];
+
+    public function menuItems()
+    {
+        return $this->belongsToMany(\App\Models\MenuItem::class, 'menu_item_promotion');
+    }
 } 

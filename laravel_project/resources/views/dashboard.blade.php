@@ -1,155 +1,152 @@
 @extends('layouts.app')
 
-@section('title', 'Admin Dashboard')
-
 @section('content')
-<div class="container-fluid">
-    <div class="row mt-3">
-        <!-- Statistik Kecil -->
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>112</h3>
-                    <p>Order Hari Ini</p>
+<div class="container-fluid py-4">
+    {{-- DARK/LIGHT TOGGLE --}}
+    <div class="form-check form-switch ms-auto mb-3" style="max-width: 180px;">
+        <input class="form-check-input" type="checkbox" id="themeSwitch">
+        <label class="form-check-label" for="themeSwitch">🌙 / ☀️</label>
+    </div>
+
+    {{-- NOTIFIKASI PENTING (TOAST) --}}
+    @if(session('notif'))
+      <div class="toast show position-fixed top-0 end-0 m-4 bg-danger text-white" style="z-index:9999;">
+        <div class="toast-body">
+          {{ session('notif') }}
+        </div>
+      </div>
+    @endif
+
+    {{-- STATUS MEJA --}}
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="dashboard-box d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="fw-bold text-gold mb-2">Status Meja</h5>
+                    <div>Meja tersedia: <b>{{ $mejaTersedia ?? 0 }}</b> dari <b>{{ $totalMeja ?? 0 }}</b></div>
                 </div>
-                <div class="icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
+                <a href="{{ route('tables.index') }}" class="btn btn-cafe">Lihat Daftar Meja</a>
             </div>
         </div>
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>183</h3>
-                    <p>Menu Terjual</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-utensils"></i>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-warning">
-                <div class="inner">
-                    <h3>89</h3>
-                    <p>Pelanggan Baru</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-users"></i>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>112</h3>
-                    <p>Meja Terpakai</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-chair"></i>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-primary">
-                <div class="inner">
-                    <h3>Rp {{ number_format($pendapatan) }}</h3>
-                    <p>Pendapatan Hari Ini</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-money-bill-wave"></i>
-                </div>
+        <div class="col-md-6 text-end">
+            <div class="dashboard-box">
+                <h5 class="fw-bold text-gold mb-2">Menu Terlaris</h5>
+                {{-- Chart.js atau data menu terlaris --}}
+                <canvas id="topMenuChart" height="80"></canvas>
             </div>
         </div>
     </div>
 
-    <div class="mb-4">
-        <a href="{{ route('orders.index') }}" class="btn btn-primary mr-2"><i class="fas fa-shopping-cart"></i> Order</a>
-        <a href="{{ route('categories.index') }}" class="btn btn-success mr-2"><i class="fas fa-list"></i> Kategori</a>
-        <a href="{{ route('tables.index') }}" class="btn btn-warning mr-2"><i class="fas fa-chair"></i> Meja</a>
-        <a href="{{ route('menu_items.index') }}" class="btn btn-info mr-2"><i class="fas fa-hamburger"></i> Menu Item</a>
-        <a href="{{ route('reviews.index') }}" class="btn btn-secondary mr-2"><i class="fas fa-star"></i> Review</a>
-        <a href="{{ route('promotions.index') }}" class="btn btn-dark"><i class="fas fa-bullhorn"></i> Promosi</a>
+    {{-- GRAFIK STATISTIK --}}
+    <div class="dashboard-box mb-4">
+        <h5 class="fw-bold text-gold mb-3">Grafik Kunjungan</h5>
+        <canvas id="visitChart" height="80"></canvas>
     </div>
 
-    <!-- Grafik dan Info -->
+    {{-- FILTER & SEARCH BAR + AUTOCOMPLETE --}}
+    <div class="dashboard-box mb-4">
+        <form class="row g-2 align-items-end mb-3" method="GET" action="#">
+            <div class="col-md-4">
+                <input class="form-control bg-glass text-white border-0" id="search" type="search" name="q" placeholder="Cari order, pelanggan, menu..." aria-label="Cari" autocomplete="off">
+            </div>
+            <div class="col-md-2">
+                <input type="date" class="form-control bg-glass text-white border-0" id="tanggal" name="tanggal" placeholder="Tanggal">
+            </div>
+            <div class="col-md-2">
+                <select class="form-select bg-glass text-white border-0" id="status" name="status">
+                    <option value="">Pilih Status</option>
+                    <option value="selesai">Selesai</option>
+                    <option value="diproses">Diproses</option>
+                    <option value="dibatalkan">Dibatalkan</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select bg-glass text-white border-0" id="meja" name="meja">
+                    <option value="">Pilih Meja</option>
+                    <option value="1">Meja 1</option>
+                    <option value="2">Meja 2</option>
+                    <option value="3">Meja 3</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-cafe w-100" type="submit">Filter</button>
+            </div>
+        </form>
+        <div class="d-flex gap-2 mb-3">
+            <a href="{{ route('orders.create') }}" class="btn btn-cafe"><i class="fas fa-plus"></i> Buat Order Baru</a>
+            <a href="{{ route('menu_items.create') }}" class="btn btn-cafe"><i class="fas fa-plus"></i> Tambah Menu Baru</a>
+            <a href="{{ route('promotions.create') }}" class="btn btn-cafe"><i class="fas fa-plus"></i> Tambah Promosi</a>
+            <a href="#" class="btn btn-cafe"><i class="fas fa-print"></i> Cetak Laporan Harian</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>NO. ORDER</th>
+                        <th>PELANGGAN</th>
+                        <th>STATUS</th>
+                        <th>WAKTU</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($activities as $activity)
+                        @php
+                            $statusMap = [
+                                'Selesai' => ['icon' => '✔️', 'class' => 'bg-green-600'],
+                                'Diproses' => ['icon' => '🔄', 'class' => 'bg-yellow-500 text-black'],
+                                'Dibatalkan' => ['icon' => '❌', 'class' => 'bg-red-600'],
+                            ];
+                            $status = $activity->status;
+                            $icon = $statusMap[$status]['icon'] ?? '';
+                            $class = $statusMap[$status]['class'] ?? 'bg-gray-500';
+                        @endphp
+                        <tr class="hover:bg-gray-700 transition">
+                            <td class="px-4 py-3">#{{ $activity->order_id }}</td>
+                            <td class="px-4 py-3">{{ $activity->customer_name }}</td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium {{ $class }}">
+                                    {{ $icon }} {{ $status }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3">{{ $activity->created_at->format('d M Y - H:i') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex gap-2 mt-2">
+            <a href="{{ route('export.excel') }}" class="btn btn-gold"><i class="fas fa-file-excel"></i> Export Excel</a>
+            <a href="{{ route('export.pdf') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> Export PDF</a>
+        </div>
+    </div>
+
+    {{-- INFO CARDS: STOK & PROMO --}}
     <div class="row">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header card-header-coffee">
-                    <h3 class="card-title">Profile Visit</h3>
-                </div>
-                <div class="card-body">
-                    <canvas id="barChart" style="height:250px"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <!-- User Profile & Menu Populer -->
-            <div class="card">
-                <div class="card-header card-header-coffee">
-                    <h3 class="card-title">User Profile</h3>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" class="img-circle elevation-2 mr-2" width="40" alt="User">
-                        <span>Admin Tamu</span>
+        <div class="col-md-6">
+            <div class="dashboard-box">
+                <h6 class="fw-bold text-gold mb-2">Stok Menu Hampir Habis</h6>
+                @forelse ($lowStockMenus as $menu)
+                    <div class="flex justify-between items-center py-2 border-b border-gray-700">
+                        <span class="truncate">{{ $menu->name }}</span>
+                        <span class="text-yellow-400 font-bold">Sisa: {{ $menu->stok }}</span>
                     </div>
-                    <h6>Menu Populer</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Menu 1 <span class="badge badge-primary badge-pill">12</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Menu 2 <span class="badge badge-primary badge-pill">9</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Menu 3 <span class="badge badge-primary badge-pill">7</span>
-                        </li>
-                    </ul>
-                    <canvas id="pieChart" style="height:180px"></canvas>
-                </div>
+                @empty
+                    <div class="text-muted">Semua stok aman.</div>
+                @endforelse
             </div>
         </div>
-    </div>
-
-    <!-- Traffic & Review -->
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header card-header-coffee">
-                    <h3 class="card-title">Traffic Pemesanan</h3>
-                </div>
-                <div class="card-body">
-                    <canvas id="lineChart" style="height:180px"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header card-header-coffee">
-                    <h3 class="card-title">Latest Review</h3>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Nama</th>
-                                <th>Comment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><img src="https://adminlte.io/themes/v3/dist/img/user1-128x128.jpg" width="30" class="img-circle mr-2"> Si Cantik</td>
-                                <td>Congratulations on your application.</td>
-                            </tr>
-                            <tr>
-                                <td><img src="https://adminlte.io/themes/v3/dist/img/user8-128x128.jpg" width="30" class="img-circle mr-2"> Si Ganteng</td>
-                                <td>Aku sangat menyukai cafe, suasananya nyaman dan kopinya enak.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div class="col-md-6">
+            <div class="dashboard-box">
+                <h6 class="fw-bold text-gold mb-2">Menu Sedang Promo</h6>
+                @forelse ($promoMenus as $promo)
+                    <div class="flex justify-between items-center py-2 border-b border-gray-700">
+                        <span class="truncate">{{ $promo->name }}</span>
+                        <span class="fw-bold text-success truncate">{{ $promo->label_promo }}</span>
+                    </div>
+                @empty
+                    <div class="text-muted">Tidak ada promo aktif.</div>
+                @endforelse
             </div>
         </div>
     </div>
@@ -157,50 +154,70 @@
 @endsection
 
 @push('scripts')
-<!-- ChartJS -->
+<!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Select2 CDN -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    // Bar Chart
-    var ctxBar = document.getElementById('barChart').getContext('2d');
-    new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-            datasets: [{
-                label: 'Profile Visit',
-                data: [2, 4, 6, 8, 5, 7, 6, 8, 7, 9, 6, 5],
-                backgroundColor: '#3498db'
-            }]
+    // Chart.js
+    const kunjunganData = @json($kunjunganData ?? ['labels'=>[], 'datasets'=>[]]);
+    const menuTerlarisData = @json($menuTerlarisData ?? ['labels'=>[], 'datasets'=>[]]);
+    if(document.getElementById('visitChart')) {
+      new Chart(document.getElementById('visitChart'), {
+        type: 'line', data: kunjunganData, options: { responsive: true }
+      });
+    }
+    if(document.getElementById('topMenuChart')) {
+      new Chart(document.getElementById('topMenuChart'), {
+        type: 'bar', data: menuTerlarisData, options: { responsive: true }
+      });
+    }
+    // Select2
+    $(document).ready(function() {
+        $('.select2').select2({ theme: 'classic', width: 'resolve' });
+    });
+    // Validasi tanggal
+    $('form').on('submit', function(e) {
+        var tanggal = $('#tanggal').val();
+        if (tanggal && !/^\d{4}-\d{2}-\d{2}$/.test(tanggal)) {
+            alert('Format tanggal salah!');
+            e.preventDefault();
         }
     });
-
-    // Pie Chart
-    var ctxPie = document.getElementById('pieChart').getContext('2d');
-    new Chart(ctxPie, {
-        type: 'doughnut',
-        data: {
-            labels: ['Menu 1', 'Menu 2', 'Menu 3'],
-            datasets: [{
-                data: [12, 9, 7],
-                backgroundColor: ['#3498db', '#2ecc71', '#e74c3c']
-            }]
-        }
+    // Autocomplete Search
+    $('#search').on('input', function() {
+      let q = $(this).val();
+      if(q.length < 2) { $('#suggestions').hide(); return; }
+      $.get('/search-suggest', {q}, function(data) {
+        let html = '';
+        data.forEach(item => html += `<li class="list-group-item">${item}</li>`);
+        $('#suggestions').html(html).show();
+      });
     });
-
-    // Line Chart
-    var ctxLine = document.getElementById('lineChart').getContext('2d');
-    new Chart(ctxLine, {
-        type: 'line',
-        data: {
-            labels: ['Makanan', 'Minuman', 'Cemilan'],
-            datasets: [{
-                label: 'Traffic',
-                data: [862, 375, 1025],
-                borderColor: '#e67e22',
-                backgroundColor: 'rgba(230, 126, 34, 0.2)',
-                fill: true
-            }]
-        }
+    $(document).on('click', '#suggestions li', function() {
+      $('#search').val($(this).text());
+      $('#suggestions').hide();
     });
+    // Hide suggestions on click outside
+    $(document).on('click', function(e) {
+      if(!$(e.target).closest('#search, #suggestions').length) $('#suggestions').hide();
+    });
+    // Dark/Light Toggle
+    const themeSwitch = document.getElementById('themeSwitch');
+    if(themeSwitch) {
+      themeSwitch.checked = localStorage.getItem('theme') === 'light';
+      themeSwitch.addEventListener('change', function() {
+        if(this.checked) {
+          document.body.classList.remove('dark');
+          document.body.classList.add('light');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.body.classList.remove('light');
+          document.body.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+    }
 </script>
 @endpush

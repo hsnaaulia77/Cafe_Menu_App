@@ -35,6 +35,7 @@
                             <th class="py-3 px-3 text-center">Tanggal Mulai</th>
                             <th class="py-3 px-3 text-center">Tanggal Berakhir</th>
                             <th class="py-3 px-3 text-center">Status</th>
+                            <th class="py-3 px-3 text-center">Menu Berlaku</th>
                             <th class="py-3 px-3 text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -51,6 +52,13 @@
                             <td class="text-center">{{ \Carbon\Carbon::parse($promo->tanggal_berakhir)->format('d M Y') }}</td>
                             <td class="text-center">
                                 <span class="badge {{ $promo->status == 'aktif' ? 'bg-success' : 'bg-secondary' }}">{{ ucfirst($promo->status) }}</span>
+                            </td>
+                            <td class="text-center">
+                                @forelse($promo->menuItems as $menu)
+                                    <span class="badge bg-primary">{{ $menu->nama }}</span>
+                                @empty
+                                    <span class="text-muted">-</span>
+                                @endforelse
                             </td>
                             <td class="text-center">
                                 <a href="{{ route('promotions.edit', $promo) }}" class="btn btn-warning btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>

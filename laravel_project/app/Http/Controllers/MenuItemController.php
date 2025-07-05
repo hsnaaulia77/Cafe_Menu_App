@@ -104,4 +104,18 @@ class MenuItemController extends Controller
         $menuItem->delete();
         return redirect()->route('menu_items.index')->with('success', 'Menu item berhasil dihapus!');
     }
+
+    public function editPromotions($id)
+    {
+        $menuItem = \App\Models\MenuItem::with('promotions')->findOrFail($id);
+        $allPromotions = \App\Models\Promotion::all();
+        return view('menu_items.edit_promotions', compact('menuItem', 'allPromotions'));
+    }
+
+    public function updatePromotions(\Illuminate\Http\Request $request, $id)
+    {
+        $menuItem = \App\Models\MenuItem::findOrFail($id);
+        $menuItem->promotions()->sync($request->input('promotion_ids', []));
+        return redirect()->route('menu_items.index')->with('success', 'Promosi menu berhasil diupdate!');
+    }
 }

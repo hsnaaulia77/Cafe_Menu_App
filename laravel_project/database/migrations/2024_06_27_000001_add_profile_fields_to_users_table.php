@@ -9,10 +9,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('phone')->nullable()->after('email');
-            $table->string('photo')->nullable()->after('phone');
-            $table->boolean('notif_email')->default(false)->after('photo');
-            $table->boolean('notif_promo')->default(false)->after('notif_email');
+            if (!Schema::hasColumn('users', 'phone')) {
+                $table->string('phone')->nullable()->after('email');
+            }
+            if (!Schema::hasColumn('users', 'photo')) {
+                $table->string('photo')->nullable()->after('phone');
+            }
+            if (!Schema::hasColumn('users', 'notif_email')) {
+                $table->boolean('notif_email')->default(false)->after('photo');
+            }
+            if (!Schema::hasColumn('users', 'notif_promo')) {
+                $table->boolean('notif_promo')->default(false)->after('notif_email');
+            }
         });
     }
 

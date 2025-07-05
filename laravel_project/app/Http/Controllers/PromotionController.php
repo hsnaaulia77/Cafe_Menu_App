@@ -60,4 +60,26 @@ class PromotionController extends Controller
         $promotion->delete();
         return redirect()->route('promotions.index')->with('success', 'Promosi berhasil dihapus!');
     }
+
+    public function editMenus($id)
+    {
+        $promotion = \App\Models\Promotion::with('menuItems')->findOrFail($id);
+        $allMenus = \App\Models\MenuItem::all();
+        return view('promotions.edit_menus', compact('promotion', 'allMenus'));
+    }
+
+    public function updateMenus(\Illuminate\Http\Request $request, $id)
+    {
+        $request->validate([
+            'menu_item_ids' => 'required|array|min:1',
+            'menu_item_ids.*' => 'exists:menu_items,id',
+        ], [
+            'menu_item_ids.required' => 'Pilih minimal satu menu.',
+            'menu_item_ids.min' => 'Pilih minimal satu menu.',
+            'menu_item_ids.*.exists' => 'Menu yang dipilih tidak valid.',
+        ]);
+        $promotion = \App\Models\Promotion::findOrFail($id);
+        $promotion->menuItems()->sync($request->input('menu_item_ids', []));
+        return redirect()->route('promotions.index')->with('success', 'Menu promosi berhasil diupdate!');
+    }
 } 

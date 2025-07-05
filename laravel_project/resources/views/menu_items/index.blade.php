@@ -30,6 +30,7 @@
                         <th class="py-3 px-3 text-center">Status</th>
                         <th class="py-3 px-3 text-center">Stok</th>
                         <th class="py-3 px-3 text-center">Gambar</th>
+                        <th class="py-3 px-3 text-center">Promosi Aktif</th>
                         <th class="py-3 px-3 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -52,6 +53,13 @@
                             @else
                                 -
                             @endif
+                        </td>
+                        <td class="text-center">
+                            @forelse($item->promotions as $promo)
+                                <span class="badge bg-success">{{ $promo->nama }}</span>
+                            @empty
+                                <span class="text-muted">-</span>
+                            @endforelse
                         </td>
                         <td class="text-center">
                             <a href="{{ route('menu_items.edit', $item->id) }}" class="btn btn-warning btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>

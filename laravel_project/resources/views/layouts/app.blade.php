@@ -21,73 +21,127 @@
             $role = auth()->user()->role ?? null;
         @endphp
 
+        <!-- Dark Mode Elegant Global -->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap" rel="stylesheet">
         <style>
-            :root {
-                --off-white: #faf5f0;
-                --stone-gray: #a6a6a6;
-                --deep-brown: #362c2a;
-                --blue-glass: #7fa7b2;
-                --sand: #d8c3ac;
+            body, html {
+                background: linear-gradient(135deg, #18181c 0%, #232526 100%) !important;
+                color: #fff !important;
+                font-family: 'Montserrat', 'Lato', sans-serif !important;
             }
-
-            /* Override AdminLTE Primary Color */
-            .btn-primary, .btn-primary:hover {
-                background-color: var(--deep-brown) !important;
-                border-color: var(--stone-gray) !important;
+            .main-header.navbar, .main-footer, .content-wrapper, .sidebar, .main-sidebar, .brand-link {
+                background: rgba(30,30,35,0.95) !important;
+                color: #fff !important;
+                border: none !important;
             }
-            .card-primary.card-outline {
-                background-color: #fff !important;
-                border-color: var(--stone-gray) !important;
+            .sidebar-dark-primary, .main-sidebar, .sidebar {
+                background: #18181c !important;
+                color: #ffd700 !important;
             }
-            .btn-primary:focus, .btn-primary.focus {
-                 box-shadow: 0 0 0 0.2rem rgba(54, 44, 42, 0.5) !important;
+            .sidebar .nav-link, .sidebar .nav-header, .sidebar .brand-link {
+                color: #ffd700 !important;
             }
-
-            /* Sidebar Color Scheme */
-            @if($role === 'admin')
-                [class*=sidebar-dark-] { background-color: var(--deep-brown) !important; }
-            @elseif($role === 'customer')
-                [class*=sidebar-dark-] { background-color: #2a3f54 !important; }
-            @elseif($role === 'cashier')
-                [class*=sidebar-dark-] { background-color: #1b5e20 !important; }
-            @endif
-            .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
-                background-color: var(--stone-gray);
+            .sidebar .nav-link.active, .sidebar .nav-link:hover {
+                background: linear-gradient(90deg, #232526 0%, #18181c 100%) !important;
+                color: #ffd700 !important;
+                border-radius: 1.2rem !important;
             }
-            
-            /* Navbar Color */
-            .main-header.navbar {
-                background-color: #fff;
-                border-bottom: 1px solid #dee2e6;
+            .sidebar .nav-icon, .sidebar .brand-link .brand-image {
+                color: #ffd700 !important;
             }
-
-            /* Custom Card Header */
-            .card-header.card-header-coffee {
-                background-color: var(--deep-brown);
-                color: white;
+            .main-header.navbar, .main-footer {
+                background: rgba(30,30,35,0.95) !important;
+                color: #ffd700 !important;
+                border: none !important;
             }
-
-            /* Custom Small Box Colors */
-            .bg-coffee-1 { background-color: var(--sand) !important; color: var(--deep-brown) !important; }
-            .bg-coffee-2 { background-color: var(--blue-glass) !important; color: white !important; }
-            .bg-coffee-3 { background-color: var(--stone-gray) !important; color: var(--deep-brown) !important; }
-            .bg-coffee-4 { background-color: var(--deep-brown) !important; color: white !important; }
-            .bg-coffee-1 .small-box-footer, .bg-coffee-3 .small-box-footer { color: var(--deep-brown) !important; }
-            .bg-coffee-2 .small-box-footer, .bg-coffee-4 .small-box-footer { color: white !important; }
+            .content-wrapper {
+                background: transparent !important;
+            }
+            .card, .form-control, .list-group-item {
+                background: rgba(30,30,35,0.92) !important;
+                color: #fff !important;
+                border: none !important;
+                border-radius: 1.2rem !important;
+                box-shadow: 0 4px 24px #0008 !important;
+                font-family: 'Lato', 'Montserrat', sans-serif !important;
+            }
+            .form-control {
+                background: rgba(40,40,45,0.5) !important;
+                border: 1.5px solid #ffd70033 !important;
+                color: #fff !important;
+                border-radius: 0.8rem !important;
+                padding: 0.8rem 1rem !important;
+                margin-bottom: 1.1rem !important;
+                font-size: 1rem !important;
+                transition: border 0.2s !important;
+                backdrop-filter: blur(4px) !important;
+            }
+            .form-control:focus {
+                border: 1.5px solid #ffd700 !important;
+                background: rgba(40,40,45,0.9) !important;
+                color: #fff !important;
+            }
+            .card-header {
+                background: transparent !important;
+                color: #ffd700 !important;
+                font-weight: 700 !important;
+                border-bottom: 1px solid #ffd70033 !important;
+                font-family: 'Montserrat', sans-serif !important;
+            }
+            .btn-cafe, .btn-primary, .btn-success, .btn-warning, .btn-info, .btn-outline-primary, .btn-outline-secondary {
+                background: linear-gradient(90deg, #ffd700 0%, #b87333 100%) !important;
+                color: #18181c !important;
+                font-weight: 700 !important;
+                border-radius: 0.8rem !important;
+                border: none !important;
+                font-size: 1.1rem !important;
+                box-shadow: 0 2px 12px #b8733340 !important;
+                transition: box-shadow 0.2s, transform 0.2s !important;
+                margin-right: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .btn-cafe:hover, .btn-primary:hover, .btn-success:hover, .btn-warning:hover, .btn-info:hover, .btn-outline-primary:hover, .btn-outline-secondary:hover {
+                box-shadow: 0 4px 24px #ffd70080 !important;
+                transform: translateY(-2px) scale(1.03) !important;
+            }
+            .badge-cafe, .badge, .badge-pill {
+                background: linear-gradient(90deg, #ffd700 0%, #b87333 100%) !important;
+                color: #18181c !important;
+                border-radius: 1rem !important;
+                font-size: 0.9rem !important;
+                padding: 0.2rem 0.7rem !important;
+                font-weight: 700 !important;
+            }
+            .list-group-item {
+                background: rgba(30,30,35,0.92) !important;
+                color: #fff !important;
+                border: none !important;
+            }
+            .text-gold { color: #ffd700 !important; }
+            .text-coffee { color: #b87333 !important; }
+            .bg-coffee { background: #b87333 !important; color: #fff !important; }
+            .bg-gold { background: #ffd700 !important; color: #18181c !important; }
+            .brand-title, .dashboard-logo .brand {
+                color: #ffd700 !important;
+                font-family: 'Montserrat', sans-serif !important;
+                text-shadow: 0 2px 12px #b8733340 !important;
+            }
+            .brand-subtitle {
+                color: #e0b873 !important;
+                font-family: 'Lato', sans-serif !important;
+            }
         </style>
         @stack('styles')
     </head>
     <body class="hold-transition sidebar-mini">
+        <div id="particle-bg"></div>
         <div class="wrapper">
             <!-- Navbar -->
-            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-                <!-- Left navbar links -->
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                    </li>
-                </ul>
-
+            <nav class="main-header navbar navbar-expand navbar-dark bg-dark px-3">
+                <button class="btn btn-cafe d-lg-none me-2" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <span class="navbar-brand">Cafe App</span>
                 <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Notifications Dropdown Menu -->
@@ -142,10 +196,9 @@
                             <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info">
-                            <a href="#" class="d-block">{{ optional(Auth::user())->name ?? 'Admin' }}</a>
+                            <a href="#" class="d-block">{{ Auth::user()->name ?? 'Admin' }}</a>
                         </div>
                     </div>
-
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -156,68 +209,52 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('orders.index') }}" class="nav-link {{ request()->routeIs('orders.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-receipt"></i>
+                                    <p>Orders</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('menu_items.index') }}" class="nav-link {{ request()->routeIs('menu_items.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-utensils"></i>
+                                    <p>Menu Items</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('categories.index') }}" class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-list"></i>
-                                    <p>Kategori</p>
+                                    <p>Categories</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('tables.index') }}" class="nav-link {{ request()->routeIs('tables.*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-chair"></i>
-                                    <p>Meja</p>
+                                    <p>Tables</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('menu_items.index') }}" class="nav-link {{ request()->routeIs('menu_items.*') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-hamburger"></i>
-                                    <p>Menu Item</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('orders.index') }}" class="nav-link {{ request()->routeIs('orders.*') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-shopping-cart"></i>
-                                    <p>Order</p>
+                                <a href="{{ route('promotions.index') }}" class="nav-link {{ request()->routeIs('promotions.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-gift"></i>
+                                    <p>Promotions</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('reviews.index') }}" class="nav-link {{ request()->routeIs('reviews.*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-star"></i>
-                                    <p>Review</p>
+                                    <p>Reviews</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('promotions.index') }}" class="nav-link {{ request()->routeIs('promotions.*') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-bullhorn"></i>
-                                    <p>Promosi</p>
+                                <a href="{{ route('profile.edit') }}" class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    <p>Profile</p>
                                 </a>
                             </li>
-                            @if($role === 'admin')
-                                <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p></a></li>
-                                <li class="nav-item"><a href="{{ route('admin.menus.index') }}" class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}"><i class="nav-icon fas fa-utensils"></i><p>Menu Management</p></a></li>
-                                <li class="nav-item"><a href="{{ route('admin.kategori_menu.index') }}" class="nav-link {{ request()->routeIs('admin.kategori_menu.*') ? 'active' : '' }}"><i class="nav-icon fas fa-list"></i><p>Kategori Menu</p></a></li>
-                                <li class="nav-item"><a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"><i class="nav-icon fas fa-users"></i><p>Manajemen User</p></a></li>
-                                <li class="nav-item"><a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}"><i class="nav-icon fas fa-shopping-cart"></i><p>Manajemen Order</p></a></li>
-                                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-chart-bar"></i><p>Laporan Transaksi</p></a></li>
-                            @elseif($role === 'customer')
-                                <li class="nav-item"><a href="{{ route('menu.browse') }}" class="nav-link"><i class="nav-icon fas fa-coffee"></i><p>Daftar Menu</p></a></li>
-                                <li class="nav-item"><a href="{{ route('cart.index') }}" class="nav-link"><i class="nav-icon fas fa-shopping-cart"></i><p>Keranjang</p></a></li>
-                                <li class="nav-item"><a href="{{ route('orders.index') }}" class="nav-link"><i class="nav-icon fas fa-history"></i><p>Riwayat Pemesanan</p></a></li>
-                                <li class="nav-item"><a href="{{ route('profile.edit') }}" class="nav-link"><i class="nav-icon fas fa-user"></i><p>Profil</p></a></li>
-                            @elseif($role === 'cashier')
-                                <li class="nav-item"><a href="{{ route('cashier.orders.index') }}" class="nav-link"><i class="nav-icon fas fa-inbox"></i><p>Pesanan Masuk</p></a></li>
-                                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-cash-register"></i><p>Pembayaran</p></a></li>
-                                <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-history"></i><p>Riwayat Transaksi</p></a></li>
-                            @endif
-                            <li class="nav-header">SETTINGS</li>
-                            <li class="nav-item"><a href="{{ route('profile.edit') }}" class="nav-link"><i class="nav-icon fas fa-user"></i><p>Profile</p></a></li>
                             <li class="nav-item">
-                                <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                                    @csrf
-                                    <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <i class="nav-icon fas fa-sign-out-alt"></i>
-                                        <p>Logout</p>
-                                    </a>
-                                </form>
+                                <a href="{{ route('logout') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                                    <p>Logout</p>
+                                </a>
                             </li>
                         </ul>
                     </nav>
@@ -227,12 +264,9 @@
             </aside>
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-                <main>
+            <div class="content-wrapper p-4">
                 @yield('content')
-                </main>
             </div>
-            <!-- /.content-wrapper -->
 
             <footer class="main-footer">
                 <div class="float-right d-none d-sm-inline">
@@ -241,7 +275,6 @@
                 <strong>Copyright &copy; 2024 <a href="#">{{ config('app.name', 'Laravel') }}</a>.</strong> All rights reserved.
             </footer>
         </div>
-        <!-- ./wrapper -->
 
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -252,5 +285,67 @@
         <!-- ChartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         @stack('scripts')
+        <script>
+        // Simple Particle Effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
+            canvas.style.position = 'absolute';
+            canvas.style.top = 0;
+            canvas.style.left = 0;
+            canvas.style.pointerEvents = 'none';
+            const ctx = canvas.getContext('2d');
+            document.getElementById('particle-bg').appendChild(canvas);
+            let particles = [];
+            for(let i=0;i<40;i++){
+                particles.push({
+                    x: Math.random()*canvas.width,
+                    y: Math.random()*canvas.height,
+                    r: Math.random()*2+1,
+                    dx: (Math.random()-0.5)*0.5,
+                    dy: (Math.random()-0.5)*0.5,
+                    o: Math.random()*0.5+0.2
+                });
+            }
+            function drawParticles(){
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                for(let p of particles){
+                    ctx.beginPath();
+                    ctx.arc(p.x,p.y,p.r,0,2*Math.PI);
+                    ctx.fillStyle = `rgba(255,215,0,${p.o})`;
+                    ctx.shadowColor = '#FFD700';
+                    ctx.shadowBlur = 8;
+                    ctx.fill();
+                    p.x += p.dx;
+                    p.y += p.dy;
+                    if(p.x<0||p.x>canvas.width) p.dx*=-1;
+                    if(p.y<0||p.y>canvas.height) p.dy*=-1;
+                }
+                requestAnimationFrame(drawParticles);
+            }
+            drawParticles();
+            window.addEventListener('resize',()=>{
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+            // Sidebar toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.querySelector('.main-sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            if(sidebarToggle && sidebar && sidebarOverlay) {
+                sidebarToggle.onclick = function() {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                };
+                sidebarOverlay.onclick = function() {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                };
+            }
+        });
+        </script>
     </body>
 </html>

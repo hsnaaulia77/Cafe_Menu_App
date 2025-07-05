@@ -15,4 +15,9 @@ class Category extends Model
         'description',
         'status',
     ];
+
+    public function menuItems()
+    {
+        return $this->hasMany(\App\Models\MenuItem::class, 'kategori_id');
+    }
 }
