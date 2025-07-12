@@ -24,4 +24,9 @@ class MenuItem extends Model
     {
         return $this->belongsToMany(\App\Models\Promotion::class, 'menu_item_promotion');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(\App\Models\Review::class, 'menu_item_id');
+    }
 }
