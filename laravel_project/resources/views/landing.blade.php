@@ -844,28 +844,5 @@ document.querySelectorAll('.feature-box[title]').forEach(box => {
     }
 }
 </style>
-
-<!-- Contoh form reservasi meja -->
-<div class="reservasi-modal">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem;">
-        <span class="modal-title">Reservasi Meja</span>
-        <button type="button" style="background:none; border:none; color:#FFD700; font-size:1.3rem; font-weight:bold; cursor:pointer;">&times;</button>
-    </div>
-    <form>
-        <label for="nama">Nama</label>
-        <input type="text" id="nama" name="nama" placeholder="Nama Anda" required>
-        <label for="telepon">No. Telepon</label>
-        <input type="text" id="telepon" name="telepon" placeholder="08xxxxxxxxxx" required>
-        <label for="tanggal">Tanggal</label>
-        <input type="date" id="tanggal" name="tanggal" required>
-        <label for="jam">Jam</label>
-        <input type="time" id="jam" name="jam" required>
-        <label for="jumlah">Jumlah Orang</label>
-        <input type="number" id="jumlah" name="jumlah" min="1" placeholder="Jumlah orang" required>
-        <label for="catatan">Catatan</label>
-        <textarea id="catatan" name="catatan" placeholder="Catatan tambahan (opsional)"></textarea>
-        <button type="submit" class="btn-reservasi">Kirim Reservasi</button>
-    </form>
-</div>
 </body>
 </html> 
