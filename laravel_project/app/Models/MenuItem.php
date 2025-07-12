@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MenuItem extends Model
 {
     protected $fillable = [
-        'nama', 'kategori_id', 'deskripsi', 'harga', 'gambar', 'status', 'stok'
+        'nama', 'kategori_id', 'deskripsi', 'harga', 'gambar', 'status', 'stok', 'promo_aktif'
     ];
 
     public function kategori()

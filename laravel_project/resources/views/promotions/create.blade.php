@@ -33,7 +33,7 @@
                 <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control" value="{{ old('tanggal_mulai') }}" required>
             </div>
             <div class="col-md-6">
-                <label for="tanggal_berakhir" class="form-label">Tanggal Berakhir</label>
+                <label for="tanggal_berakhir" class="form-label">Tanggal Berhenti</label>
                 <input type="date" name="tanggal_berakhir" id="tanggal_berakhir" class="form-control" value="{{ old('tanggal_berakhir') }}" required>
             </div>
         </div>
@@ -43,6 +43,11 @@
                 <option value="aktif" {{ old('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
                 <option value="nonaktif" {{ old('status') == 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
             </select>
+        </div>
+        <div class="mb-3">
+            <label for="menu_berlaku_manual" class="form-label">Menu Berlaku (Manual)</label>
+            <input type="text" name="menu_berlaku_manual" id="menu_berlaku_manual" class="form-control" value="{{ old('menu_berlaku_manual') }}" required>
+            <small class="text-muted">Masukkan nama menu yang mendapatkan promo ini, pisahkan dengan koma jika lebih dari satu.</small>
         </div>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>

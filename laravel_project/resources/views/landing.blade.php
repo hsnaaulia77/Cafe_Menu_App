@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CafeKu - Aplikasi Pemesanan Cafe</title>
+    <title>Noir Cafe - Aplikasi Pemesanan Cafe</title>
     <!-- Google Fonts: Montserrat & Lato -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
@@ -70,8 +70,8 @@
             border-radius: 0.8rem;
             border: none;
             font-size: 1.25rem;
-            box-shadow: 0 2px 12px #b8733340;
-            transition: box-shadow 0.2s, transform 0.2s;
+            box-shadow: 0 2px 12px #b8733340, 0 8px 32px #ffd70022;
+            transition: box-shadow 0.2s, transform 0.2s, background 0.25s;
             margin: 12px;
             padding: 16px 40px;
             text-decoration: none;
@@ -79,9 +79,10 @@
             z-index: 2;
         }
         .btn-main:hover {
-            box-shadow: 0 4px 24px #ffd70080;
-            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 4px 24px #ffd70080, 0 12px 36px #ffd70033;
+            transform: translateY(-2px) scale(1.07);
             color: #18181c !important;
+            background: linear-gradient(90deg, #b87333 0%, #ffd700 100%) !important;
         }
         .features {
             display: flex;
@@ -89,17 +90,31 @@
             margin-top: 48px;
             justify-content: center;
             flex-wrap: wrap;
+            background: rgba(30,30,35,0.82);
+            backdrop-filter: blur(8px);
+            border-radius: 1.2rem;
+            box-shadow: 0 8px 32px #ffd70022;
+            padding: 32px 18px 18px 18px;
+            border: 1.5px solid #ffd70033;
         }
         .feature-box {
             background: rgba(30,30,35,0.92);
             color: #fff;
             border-radius: 1.2rem;
-            box-shadow: 0 4px 24px #0008;
+            box-shadow: 0 4px 24px #ffd70022;
             padding: 28px 20px 20px 20px;
             width: 260px;
             text-align: center;
             margin-bottom: 24px;
             border: 1.5px solid #ffd70033;
+            transition: box-shadow 0.25s, transform 0.25s, background 0.25s;
+            position: relative;
+            z-index: 2;
+        }
+        .feature-box:hover {
+            box-shadow: 0 8px 32px #ffd70055;
+            transform: translateY(-4px) scale(1.06);
+            background: linear-gradient(120deg, #232526 60%, #b87333 100%);
         }
         .feature-box h3 {
             margin-bottom: 12px;
@@ -129,6 +144,7 @@
             background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') center center/cover no-repeat;
             opacity: 0.22;
             filter: blur(1.5px);
+            pointer-events: none;
         }
         .hero-bg-overlay {
             position: absolute;
@@ -136,6 +152,7 @@
             background: linear-gradient(135deg, #18181c 60%, #232526 100%);
             opacity: 0.7;
             z-index: 1;
+            pointer-events: none;
         }
         .hero {
             min-height: 100vh;
@@ -195,14 +212,14 @@
             <ellipse cx="256" cy="160" rx="80" ry="20" fill="#fff" fill-opacity="0.08"/>
             <path d="M392 240c44 0 80 36 80 80s-36 80-80 80" stroke="#ffd700" stroke-width="16" fill="none"/>
         </svg>
-        <div class="brand-title"><i class="fas fa-coffee"></i> CafeKu</div>
+        <div class="brand-title"><i class="fas fa-coffee"></i> Noir Cafe</div>
         <div class="brand-tagline">
             Nikmati pengalaman <b>pemesanan cafe</b> yang <span style="color:#ffd700">mudah</span>, <span style="color:#ffd700">cepat</span>, dan <span style="color:#ffd700">nyaman</span>.<br>
             Pesan menu favoritmu tanpa antri, langsung dari aplikasi!
         </div>
-        <div>
-            <a href="{{ route('login') }}" class="btn-main"><i class="fas fa-sign-in-alt me-1"></i> Login</a>
-            <a href="{{ route('register') }}" class="btn-main" style="background:linear-gradient(90deg,#b87333 0%,#ffd700 100%) !important;"><i class="fas fa-user-plus me-1"></i> Daftar</a>
+        <div class="hero-btn-group">
+            <a href="{{ route('login') }}" class="btn-main"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="{{ route('register') }}" class="btn-main" style="background:linear-gradient(90deg,#b87333 0%,#ffd700 100%) !important;"><i class="fas fa-user-plus"></i> Register</a>
         </div>
     </div>
 
@@ -236,194 +253,196 @@
         }
     </style>
     <div class="features">
-        <a href="{{ route('user.menu') }}" class="feature-box">
+        <a href="{{ route('user.menu') }}" class="feature-box" title="Lihat dan pesan menu favoritmu">
             <i class="fas fa-utensils"></i>
             <h3>Menu Lengkap</h3>
             <p>Lihat dan pesan berbagai menu makanan & minuman cafe favoritmu.</p>
         </a>
-        <a href="{{ route('user.order') }}" class="feature-box">
+        @auth
+        <a href="{{ route('user.order') }}" class="feature-box" title="Pesan menu tanpa antri">
             <i class="fas fa-mobile-alt"></i>
             <h3>Pemesanan Mudah</h3>
             <p>Pesan dari mana saja, kapan saja, tanpa antri di kasir.</p>
         </a>
-        <a href="{{ route('user.promo') }}" class="feature-box">
+        @else
+        <a href="javascript:void(0)" class="feature-box" onclick="alert('Silakan login dulu!')" title="Login untuk memesan menu">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Pemesanan Mudah</h3>
+            <p>Pesan dari mana saja, kapan saja, tanpa antri di kasir.</p>
+        </a>
+        @endauth
+        <a href="{{ route('user.promo') }}" class="feature-box" title="Lihat promo terbaru">
             <i class="fas fa-gift"></i>
-            <h3>Promo Menarik</h3>
+            <h3>Promo Menarik <span style="background:#ffec80;color:#232526;font-size:0.95rem;font-weight:700;border-radius:1rem;padding:0.18rem 0.7rem;margin-left:8px;">Baru</span></h3>
             <p>Dapatkan diskon & promo spesial setiap hari.</p>
         </a>
-        <a href="{{ route('user.reservasi') }}" class="feature-box">
+        <a href="javascript:void(0)" class="feature-box" id="btnReservasi" title="Reservasi meja online">
             <i class="fas fa-chair"></i>
             <h3>Reservasi Meja</h3>
             <p>Booking meja favoritmu secara online, tanpa perlu menunggu.</p>
         </a>
     </div>
 
-    <!-- Tentang Kami Section -->
-    <section style="width:100%; display:flex; justify-content:center; align-items:center; margin:64px 0 0 0; flex-wrap:wrap; gap:40px;">
-        <div style="max-width:420px; min-width:260px; z-index:2;">
-            <h2 style="color:#ffd700; font-family:'Montserrat',sans-serif; font-size:2rem; font-weight:700; margin-bottom:1rem;">Tentang Kami</h2>
-            <p style="color:#fff; font-size:1.1rem; line-height:1.7; margin-bottom:1.2rem;">
-                <b>CafeKu</b> adalah tempat nongkrong modern yang menggabungkan suasana nyaman, menu kekinian, dan teknologi pemesanan digital. Kami percaya bahwa setiap momen di cafe harus mudah, cepat, dan menyenangkan.
-            </p>
-            <ul style="color:#e0b873; font-size:1rem; margin-bottom:1.2rem; padding-left:1.2rem;">
-                <li>☕ Visi: Menjadi cafe pilihan utama untuk generasi digital.</li>
-                <li>🌟 Keunikan: Pemesanan tanpa antri, reservasi online, dan promo eksklusif setiap hari.</li>
-            </ul>
-            <p style="color:#ffd700; font-size:1rem; font-style:italic;">"Ngopi, ngobrol, dan pesan menu favoritmu, semua dalam satu aplikasi!"</p>
+    <!-- Modal Reservasi -->
+    <div id="modalReservasi" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(24,24,28,0.85); align-items:center; justify-content:center;">
+        <div style="background:#232526; border-radius:1.2rem; padding:32px 24px; min-width:320px; max-width:90vw; box-shadow:0 8px 32px #000a; position:relative;">
+            <button onclick="closeReservasi()" style="position:absolute; top:12px; right:18px; background:none; border:none; color:#ffd700; font-size:1.5rem; cursor:pointer;">&times;</button>
+            <h3 style="color:#ffd700; font-family:'Montserrat',sans-serif; margin-bottom:18px;">Reservasi Meja</h3>
+            <form id="formReservasi" method="POST" action="{{ route('user.reservasi') }}">
+                @csrf
+                <div class="mb-3">
+                    <label>Nama</label>
+                    <input type="text" name="nama" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label>No. Telepon</label>
+                    <input type="text" name="telepon" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label>Tanggal</label>
+                    <input type="date" name="tanggal" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label>Jam</label>
+                    <input type="time" name="jam" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label>Jumlah Orang</label>
+                    <input type="number" name="jumlah_orang" class="form-control" min="1" required>
+                </div>
+                <div class="mb-3">
+                    <label>Catatan</label>
+                    <textarea name="catatan" class="form-control" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn btn-main" style="width:100%;">Kirim Reservasi</button>
+            </form>
+            <div id="notifReservasi" style="display:none; margin-top:16px; color:#ffd700; text-align:center; font-weight:bold;"></div>
         </div>
-        <div style="min-width:220px; max-width:340px;">
-            <!-- Ilustrasi cafe SVG -->
-            <svg viewBox="0 0 340 220" width="100%" height="auto" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="170" cy="210" rx="140" ry="10" fill="#b87333" fill-opacity="0.18"/>
-                <rect x="60" y="100" width="220" height="60" rx="16" fill="#232526" stroke="#ffd700" stroke-width="2"/>
-                <rect x="90" y="120" width="40" height="40" rx="8" fill="#b87333"/>
-                <rect x="210" y="120" width="40" height="40" rx="8" fill="#b87333"/>
-                <rect x="140" y="110" width="60" height="50" rx="10" fill="#ffd700" fill-opacity="0.7"/>
-                <rect x="150" y="130" width="40" height="20" rx="5" fill="#fff" fill-opacity="0.15"/>
-                <ellipse cx="170" cy="100" rx="60" ry="18" fill="#ffd700" fill-opacity="0.5"/>
-                <ellipse cx="170" cy="100" rx="40" ry="10" fill="#fff" fill-opacity="0.08"/>
-                <rect x="120" y="70" width="100" height="30" rx="10" fill="#232526" stroke="#ffd700" stroke-width="2"/>
-                <ellipse cx="170" cy="70" rx="50" ry="10" fill="#ffd700" fill-opacity="0.3"/>
-                <ellipse cx="170" cy="70" rx="30" ry="5" fill="#fff" fill-opacity="0.08"/>
-            </svg>
-        </div>
-    </section>
+    </div>
+    <script>
+        document.getElementById('btnReservasi').onclick = function() {
+            document.getElementById('modalReservasi').style.display = 'flex';
+        };
+        function closeReservasi() {
+            document.getElementById('modalReservasi').style.display = 'none';
+        }
+        document.getElementById('modalReservasi').addEventListener('click', function(e) {
+            if (e.target === this) closeReservasi();
+        });
+    </script>
+    <script>
+document.getElementById('formReservasi').onsubmit = async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    const notif = document.getElementById('notifReservasi');
+    notif.style.display = 'none';
+    notif.innerText = '';
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            body: data
+        });
+        if (response.ok) {
+            notif.innerText = 'Reservasi berhasil dikirim!';
+            notif.style.display = 'block';
+            form.reset();
+        } else {
+            const res = await response.json();
+            notif.innerText = res.message || 'Terjadi kesalahan. Coba lagi.';
+            notif.style.display = 'block';
+        }
+    } catch (err) {
+        notif.innerText = 'Gagal mengirim reservasi. Cek koneksi Anda.';
+        notif.style.display = 'block';
+    }
+};
+</script>
 
-    <!-- Galeri Menu / Cafe Section (Dinamis, 3 kolom, efek hover zoom, responsif, placeholder jika kosong) -->
+    <!-- SECTION GALERI & TESTIMONI -->
     <style>
-        .galeri-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 28px;
-            justify-items: center;
-            margin-top: 56px;
+        .section-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: flex-start;
+            gap: 40px;
+            margin-top: 40px;
         }
-        @media (max-width: 900px) {
-            .galeri-grid { grid-template-columns: repeat(2, 1fr); }
+        .section {
+            flex: 1;
+            min-width: 300px;
         }
-        @media (max-width: 600px) {
-            .galeri-grid { grid-template-columns: 1fr; }
-        }
-        .galeri-img {
-            transition: transform 0.35s cubic-bezier(.4,2,.3,1), box-shadow 0.2s;
-            will-change: transform;
-        }
-        .galeri-img:hover {
-            transform: scale(1.08) rotate(-1deg);
-            box-shadow: 0 8px 32px #ffd70055;
-            z-index: 2;
-        }
-        .galeri-placeholder {
-            background: rgba(30,30,35,0.92);
-            border-radius: 1.2rem;
-            box-shadow: 0 4px 24px #0008;
-            border: 1.5px solid #ffd70033;
-            width: 100%;
-            max-width: 260px;
-            min-height: 220px;
+        .card-list {
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 200px;
             justify-content: center;
-            color: #ffd700;
-            font-size: 1.2rem;
+        }
+        .empty-card {
+            background: rgba(40,40,40,0.7);
+            border-radius: 16px;
+            padding: 32px 24px;
+            color: #FFD700;
             text-align: center;
-            padding: 32px 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+            margin-top: 16px;
+            min-width: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .empty-card img {
+            width: 60px;
+            margin-bottom: 12px;
+            opacity: 0.8;
         }
     </style>
-    <section style="width:100%; max-width:1100px; margin:56px auto 0 auto; padding:0 16px;">
-        <h2 style="color:#ffd700; font-family:'Montserrat',sans-serif; font-size:2rem; font-weight:700; margin-bottom:1.5rem; text-align:center;">Galeri Menu & Cafe</h2>
-        @php
-            use App\Models\MenuItem;
-            $galeri = MenuItem::where('status', 'aktif')->orderByDesc('created_at')->limit(4)->get();
-        @endphp
-        <div class="galeri-grid">
-            @forelse($galeri as $item)
-                <div style="background:rgba(30,30,35,0.92); border-radius:1.2rem; box-shadow:0 4px 24px #0008; overflow:hidden; border:1.5px solid #ffd70033; width:100%; max-width:260px;">
-                    <img class="galeri-img" src="{{ $item->gambar ? asset('storage/'.$item->gambar) : 'https://via.placeholder.com/400x160?text=Menu' }}" alt="{{ $item->nama }}" style="width:100%; height:160px; object-fit:cover;">
-                    <div style='padding:16px;'>
-                        <div style='color:#ffd700; font-weight:700; font-size:1.1rem;'>{{ $item->nama }}</div>
-                        <div style='color:#fff; font-size:0.98rem;'>{{ $item->deskripsi }}</div>
+    <div class="section-container">
+        <div class="section">
+            <h2 style="color:#FFD700; text-align:center;">Galeri Menu & Cafe</h2>
+            <div class="card-list" style="flex-direction: row; flex-wrap: wrap; gap: 24px;">
+                <div class="empty-card" style="background:rgba(30,30,35,0.92); min-width:180px; max-width:220px;">
+                    <img src="{{ asset('images/croissant.jpg') }}" alt="Croissant Almond" style="border-radius:12px; width:100%; height:110px; object-fit:cover;">
+                    <div style="font-weight:700; color:#FFD700; margin-top:8px;">Croissant Almond</div>
+                    <div style="color:#fff; font-size:0.95rem;">Croissant renyah dengan topping almond, cocok untuk sarapan atau teman kopi.</div>
+                </div>
+                <div class="empty-card" style="background:rgba(30,30,35,0.92); min-width:180px; max-width:220px;">
+                    <img src="{{ asset('images/matcha_latte.jpg') }}" alt="Matcha Latte" style="border-radius:12px; width:100%; height:110px; object-fit:cover;">
+                    <div style="font-weight:700; color:#FFD700; margin-top:8px;">Matcha Latte</div>
+                    <div style="color:#fff; font-size:0.95rem;">Minuman teh hijau creamy, segar dan sehat, dengan latte art yang cantik.</div>
+                </div>
+                <div class="empty-card" style="background:rgba(30,30,35,0.92); min-width:180px; max-width:220px;">
+                    <img src="{{ asset('images/cappuccino.jpg') }}" alt="Cappuccino" style="border-radius:12px; width:100%; height:110px; object-fit:cover;">
+                    <div style="font-weight:700; color:#FFD700; margin-top:8px;">Cappuccino</div>
+                    <div style="color:#fff; font-size:0.95rem;">Kopi susu dengan foam lembut dan latte art, favorit pelanggan Noir Cafe.</div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2 style="color:#FFD700; text-align:center;">Testimoni Pelanggan</h2>
+            <div class="card-list" style="flex-direction: row; flex-wrap: wrap; gap: 24px;">
+                <div class="empty-card" style="background:rgba(30,30,35,0.92); min-width:180px; max-width:220px;">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Andi" style="width:56px; height:56px; border-radius:50%; border:2px solid #FFD700; margin-bottom:8px;">
+                    <div style="color:#fff; font-size:0.95rem; font-style:italic;">"Tempatnya cozy, kopinya enak banget!"</div>
+                    <div style="color:#FFD700; font-weight:700;">Andi</div>
+                    <div style="color:#FFD700;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
                 </div>
-            @empty
-                <div class="galeri-placeholder">
-                    <i class="fas fa-image" style="font-size:2.5rem; margin-bottom:12px;"></i>
-                    Belum ada menu andalan.<br>Segera hadir menu spesial kami!
-                </div>
-            @endforelse
-        </div>
-    </section>
-
-    <!-- Testimoni Pelanggan Section (Dinamis, slider, placeholder jika kosong) -->
-    <style>
-        .testi-slider {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            gap: 32px;
-            scroll-snap-type: x mandatory;
-            padding-bottom: 8px;
-            margin-top: 56px;
-        }
-        .testi-card {
-            flex: 0 0 270px;
-            max-width: 270px;
-            min-width: 220px;
-            background: rgba(30,30,35,0.92);
-            border-radius: 1.2rem;
-            box-shadow: 0 4px 24px #0008;
-            border: 1.5px solid #ffd70033;
-            padding: 28px 20px 20px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            scroll-snap-align: start;
-        }
-        .testi-placeholder {
-            background: rgba(30,30,35,0.92);
-            border-radius: 1.2rem;
-            box-shadow: 0 4px 24px #0008;
-            border: 1.5px solid #ffd70033;
-            min-width: 220px;
-            max-width: 270px;
-            min-height: 220px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #ffd700;
-            font-size: 1.1rem;
-            text-align: center;
-            padding: 32px 12px;
-        }
-    </style>
-    <section style="width:100%; max-width:900px; margin:56px auto 0 auto; padding:0 16px;">
-        <h2 style="color:#ffd700; font-family:'Montserrat',sans-serif; font-size:2rem; font-weight:700; margin-bottom:1.5rem; text-align:center;">Testimoni Pelanggan</h2>
-        @php
-            use App\Models\Review;
-            $testimoni = Review::orderByDesc('tanggal')->limit(6)->get();
-        @endphp
-        <div class="testi-slider">
-            @forelse($testimoni as $rev)
-                <div class="testi-card">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode($rev->nama_customer) }}&background=ffd700&color=232526&size=64" alt="{{ $rev->nama_customer }}" style="width:64px; height:64px; border-radius:50%; border:2.5px solid #ffd700; margin-bottom:12px; object-fit:cover;">
-                    <div style="color:#fff; font-size:1.05rem; font-style:italic; margin-bottom:10px; text-align:center;">"{{ $rev->komentar }}"</div>
-                    <div style="color:#ffd700; font-weight:700; font-size:1.05rem;">{{ $rev->nama_customer }}</div>
-                    <div style="color:#ffd700; font-size:1rem;">
-                        @for($i=0; $i<$rev->rating; $i++)
-                            <i class="fas fa-star"></i>
-                        @endfor
+                <div class="empty-card" style="background:rgba(30,30,35,0.92); min-width:180px; max-width:220px;">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sari" style="width:56px; height:56px; border-radius:50%; border:2px solid #FFD700; margin-bottom:8px;">
+                    <div style="color:#fff; font-size:0.95rem; font-style:italic;">"Croissant-nya fresh, pelayanan ramah."</div>
+                    <div style="color:#FFD700; font-weight:700;">Sari</div>
+                    <div style="color:#FFD700;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
                 </div>
-            @empty
-                <div class="testi-placeholder">
-                    <i class="fas fa-user-friends" style="font-size:2.2rem; margin-bottom:12px;"></i>
-                    Belum ada testimoni pelanggan.<br>Jadilah yang pertama memberikan review!
-                </div>
-            @endforelse
+            </div>
         </div>
-    </section>
+    </div>
 
     <!-- Promo Terbaru Section -->
     <section style="width:100%; max-width:900px; margin:56px auto 0 auto; padding:0 16px;">
@@ -483,7 +502,7 @@
             cursor: pointer;
         }
     </style>
-    <section style="width:100%; max-width:800px; margin:56px auto 0 auto; padding:0 16px;">
+    <section class="fade-in" style="width:100%; max-width:800px; margin:56px auto 0 auto; padding:0 16px;">
         <h2 style="color:#ffd700; font-family:'Montserrat',sans-serif; font-size:2rem; font-weight:700; margin-bottom:1.5rem; text-align:center;">FAQ (Pertanyaan Umum)</h2>
         <div class="faq-box" style="display:flex; flex-direction:column; gap:8px;">
             <details style='background:rgba(30,30,35,0.92); border-radius:1.2rem; border:1.5px solid #ffd70033; box-shadow:0 2px 12px #0008; padding:18px 22px; color:#fff;'>
@@ -534,7 +553,7 @@
             margin-bottom: 24px;
         }
     </style>
-    <section style="width:100%; max-width:1000px; margin:56px auto 0 auto; padding:0 16px;">
+    <section class="fade-in" style="width:100%; max-width:1000px; margin:56px auto 0 auto; padding:0 16px;">
         <h2 style="color:#ffd700; font-family:'Montserrat',sans-serif; font-size:2rem; font-weight:700; margin-bottom:1.5rem; text-align:center;">Kontak & Lokasi</h2>
         <div style="display:flex; flex-wrap:wrap; gap:40px; justify-content:center; align-items:flex-start;">
             <div class="kontak-box">
@@ -579,5 +598,274 @@
             <a href="mailto:info@cafeku.com" style="color:#ffd700; margin:0 10px; font-size:1.3rem;"><i class="fas fa-envelope"></i></a>
         </div>
     </footer>
+
+    <!-- Particle effect canvas di hero -->
+    <canvas id="heroParticles"></canvas>
+    <script>
+// Particle effect (bubbles gold)
+const canvas = document.getElementById('heroParticles');
+if(canvas) {
+    const ctx = canvas.getContext('2d');
+    let w = window.innerWidth, h = window.innerHeight;
+    canvas.width = w; canvas.height = h;
+    let particles = Array.from({length: 30}, () => ({
+        x: Math.random()*w, y: Math.random()*h, r: 8+Math.random()*12, dy: 0.3+Math.random()*0.7, alpha: 0.12+Math.random()*0.18
+    }));
+    function draw() {
+        ctx.clearRect(0,0,w,h);
+        for(const p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, 2*Math.PI);
+            ctx.fillStyle = `rgba(255,215,0,${p.alpha})`;
+            ctx.fill();
+            p.y += p.dy;
+            if(p.y-p.r > h) { p.y = -p.r; p.x = Math.random()*w; }
+        }
+        requestAnimationFrame(draw);
+    }
+    draw();
+    window.addEventListener('resize', ()=>{w=window.innerWidth;h=window.innerHeight;canvas.width=w;canvas.height=h;});
+}
+// Scroll indicator di hero
+const scrollIndicator = document.querySelector('.scroll-indicator');
+if(scrollIndicator) {
+    window.addEventListener('scroll', () => {
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop;
+        if (scrollTop + clientHeight >= scrollHeight - 100) { // Show when near bottom
+            scrollIndicator.style.opacity = '1';
+            scrollIndicator.style.transform = 'translateX(-50%) translateY(0)';
+        } else {
+            scrollIndicator.style.opacity = '0';
+            scrollIndicator.style.transform = 'translateX(-50%) translateY(10px)';
+        }
+    });
+}
+// Tooltip pada fitur utama
+document.querySelectorAll('.feature-box[title]').forEach(box => {
+    box.addEventListener('mouseenter', function() {
+        this.style.position = 'relative';
+    });
+    box.addEventListener('mouseleave', function() {
+        this.style.position = '';
+    });
+});
+    </script>
+    <style>
+        /* Particle effect, animasi icon, scroll indicator, tooltip */
+        #heroParticles {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .feature-box i {
+            transition: transform 0.3s cubic-bezier(.4,2,.3,1);
+            cursor: pointer;
+        }
+        .feature-box:hover i {
+            transform: scale(1.18) rotate(-8deg);
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        .scroll-indicator i {
+            font-size: 2.2rem;
+            color: #ffd700;
+            animation: bounceDown 1.2s infinite;
+        }
+        @keyframes bounceDown { 0%,100%{transform:translateY(0);} 50%{transform:translateY(16px);} }
+        .btn-main {
+            background: linear-gradient(270deg, #ffd700 0%, #b87333 100%) !important;
+            background-size: 200% 200%;
+            animation: btnGradientMove 4s ease-in-out infinite alternate;
+        }
+        @keyframes btnGradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        /* Tooltip */
+        .feature-box[title] {
+            position: relative;
+        }
+        .feature-box[title]:hover:after {
+            content: attr(title);
+            position: absolute;
+            left: 50%;
+            bottom: 110%;
+            transform: translateX(-50%);
+            background: #232526ee;
+            color: #ffd700;
+            padding: 6px 16px;
+            border-radius: 0.7rem;
+            font-size: 1rem;
+            white-space: nowrap;
+            box-shadow: 0 2px 12px #ffd70033;
+            z-index: 99;
+            pointer-events: none;
+        }
+        @media (max-width: 900px) {
+            .scroll-indicator { bottom: 12px; }
+            .scroll-indicator i { font-size: 1.5rem; }
+        }
+    </style>
+    <script>
+        // Spinner loading pada AJAX reservasi
+        const formReservasi = document.getElementById('formReservasi');
+        if(formReservasi) {
+            formReservasi.onsubmit = async function(e) {
+                e.preventDefault();
+                const form = e.target;
+                const data = new FormData(form);
+                const notif = document.getElementById('notifReservasi');
+                notif.style.display = 'none';
+                notif.innerText = '';
+                const btn = form.querySelector('button[type="submit"]');
+                const oldHtml = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner"></span> Mengirim...';
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: {'X-Requested-With': 'XMLHttpRequest'},
+                        body: data
+                    });
+                    if (response.ok) {
+                        notif.innerText = 'Reservasi berhasil dikirim!';
+                        notif.style.display = 'block';
+                        form.reset();
+                    } else {
+                        const res = await response.json();
+                        notif.innerText = res.message || 'Terjadi kesalahan. Coba lagi.';
+                        notif.style.display = 'block';
+                    }
+                } catch (err) {
+                    notif.innerText = 'Gagal mengirim reservasi. Cek koneksi Anda.';
+                    notif.style.display = 'block';
+                }
+                btn.disabled = false;
+                btn.innerHTML = oldHtml;
+            };
+        }
+    </script>
+    <style>
+        .spinner {
+          display: inline-block;
+          width: 1.1em;
+          height: 1.1em;
+          border: 2.5px solid #ffd700;
+          border-radius: 50%;
+          border-top: 2.5px solid #23263a;
+          animation: spin 0.7s linear infinite;
+          margin-right: 7px;
+          vertical-align: middle;
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+    </style>
+    <style>
+.reservasi-modal {
+    background: rgba(30,30,35,0.92);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px #0008;
+    padding: 32px 28px 24px 28px;
+    max-width: 350px;
+    margin: 0 auto;
+    color: #fff;
+    font-family: 'Montserrat', 'Lato', sans-serif;
+    position: relative;
+    border: 1.5px solid #ffd70033;
+}
+.reservasi-modal h2, .reservasi-modal .modal-title {
+    color: #FFD700;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+.reservasi-modal label {
+    color: #FFD700;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+}
+.reservasi-modal input, .reservasi-modal textarea {
+    width: 100%;
+    border-radius: 0.7rem;
+    border: none;
+    padding: 10px 14px;
+    margin-bottom: 1.1rem;
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px #0002;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.reservasi-modal input:focus, .reservasi-modal textarea:focus {
+    background: rgba(255,255,255,0.18);
+    outline: 2px solid #FFD700;
+    color: #fff;
+}
+.reservasi-modal textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+.reservasi-modal .btn-reservasi {
+    width: 100%;
+    background: linear-gradient(90deg, #FFD700 0%, #b87333 100%);
+    color: #232526;
+    font-weight: 700;
+    font-size: 1.15rem;
+    border: none;
+    border-radius: 0.9rem;
+    padding: 14px 0;
+    margin-top: 10px;
+    box-shadow: 0 4px 18px #ffd70033;
+    transition: box-shadow 0.2s, background 0.2s, color 0.2s;
+    letter-spacing: 1px;
+}
+.reservasi-modal .btn-reservasi:hover {
+    background: linear-gradient(90deg, #b87333 0%, #FFD700 100%);
+    color: #18181c;
+    box-shadow: 0 8px 32px #ffd70055;
+}
+@media (max-width: 500px) {
+    .reservasi-modal {
+        padding: 18px 6vw 18px 6vw;
+        max-width: 98vw;
+    }
+}
+</style>
+
+<!-- Contoh form reservasi meja -->
+<div class="reservasi-modal">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem;">
+        <span class="modal-title">Reservasi Meja</span>
+        <button type="button" style="background:none; border:none; color:#FFD700; font-size:1.3rem; font-weight:bold; cursor:pointer;">&times;</button>
+    </div>
+    <form>
+        <label for="nama">Nama</label>
+        <input type="text" id="nama" name="nama" placeholder="Nama Anda" required>
+        <label for="telepon">No. Telepon</label>
+        <input type="text" id="telepon" name="telepon" placeholder="08xxxxxxxxxx" required>
+        <label for="tanggal">Tanggal</label>
+        <input type="date" id="tanggal" name="tanggal" required>
+        <label for="jam">Jam</label>
+        <input type="time" id="jam" name="jam" required>
+        <label for="jumlah">Jumlah Orang</label>
+        <input type="number" id="jumlah" name="jumlah" min="1" placeholder="Jumlah orang" required>
+        <label for="catatan">Catatan</label>
+        <textarea id="catatan" name="catatan" placeholder="Catatan tambahan (opsional)"></textarea>
+        <button type="submit" class="btn-reservasi">Kirim Reservasi</button>
+    </form>
+</div>
 </body>
 </html> 

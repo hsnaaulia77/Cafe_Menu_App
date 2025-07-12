@@ -55,11 +55,11 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            @forelse($item->promotions as $promo)
-                                <span class="badge bg-success">{{ $promo->nama }}</span>
-                            @empty
-                                <span class="text-muted">-</span>
-                            @endforelse
+                            @if($item->promo_aktif === 'aktif')
+                                <span class="badge bg-success">Aktif</span>
+                            @else
+                                <span class="badge bg-secondary">Tidak Aktif</span>
+                            @endif
                         </td>
                         <td class="text-center">
                             <a href="{{ route('menu_items.edit', $item->id) }}" class="btn btn-warning btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>

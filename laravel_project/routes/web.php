@@ -12,11 +12,27 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReportController;
+use App\Models\MenuItem;
+use App\Models\Table;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    return view('landing');
+    $galeri = \App\Models\MenuItem::where('status', 'aktif')->orderByDesc('created_at')->limit(4)->get();
+    $testimoni = \App\Models\Review::orderByDesc('tanggal')->limit(6)->get();
+    return view('landing', compact('galeri', 'testimoni'));
 });
 
+// Dashboard untuk admin
+Route::middleware(['auth'])->get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->name('admin.dashboard');
+
+// Dashboard untuk customer
+Route::middleware(['auth'])->get('/dashboard/customer', function () {
+    return view('customer.dashboard');
+})->name('customer.dashboard');
+
+// Dashboard untuk user biasa (default sudah ada)
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/dashboard/search-suggest', [DashboardController::class, 'searchSuggest']);
 Route::get('/dashboard/export/excel', [DashboardController::class, 'exportExcel'])->name('export.excel');
@@ -26,9 +42,15 @@ Route::get('/menu', function () {
     return view('user.menu');
 })->name('user.menu');
 
-Route::get('/order', function () {
-    return view('user.order');
+Route::get('/order', function (\Illuminate\Http\Request $request) {
+    $menu = null;
+    if ($request->menu_id) {
+        $menu = MenuItem::find($request->menu_id);
+    }
+    $tables = Table::where('status', 'tersedia')->get();
+    return view('user.order', compact('menu', 'tables'));
 })->name('user.order');
+Route::post('/order', [App\Http\Controllers\OrderController::class, 'store'])->name('user.order.store');
 
 Route::get('/promo', function () {
     return view('user.promo');
@@ -59,7 +81,7 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 
 Route::resource('categories', CategoryController::class);
 Route::resource('tables', TableController::class);
-Route::resource('menu_items', MenuItemController::class)->middleware('auth', 'role:admin');
+Route::resource('menu_items', MenuItemController::class)->middleware('auth');
 Route::resource('orders', OrderController::class);
 Route::resource('promotions', PromotionController::class);
 Route::resource('reviews', ReviewController::class);

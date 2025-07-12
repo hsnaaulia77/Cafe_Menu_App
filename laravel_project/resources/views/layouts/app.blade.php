@@ -141,7 +141,7 @@
                 <button class="btn btn-cafe d-lg-none me-2" id="sidebarToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <span class="navbar-brand">Cafe App</span>
+                <span class="navbar-brand">Noir Cafe</span>
                 <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Notifications Dropdown Menu -->
@@ -185,7 +185,7 @@
                 <!-- Brand Logo -->
                 <a href="{{ Auth::check() && Auth::user()->role == 'admin' ? route('admin.dashboard') : route('dashboard') }}" class="brand-link">
                     <i class="fas fa-coffee brand-image img-circle elevation-3" style="opacity: .8"></i>
-                    <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
+                    <span class="brand-text font-weight-light">Noir Cafe</span>
                 </a>
 
                 <!-- Sidebar -->
@@ -251,10 +251,13 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('logout') }}" class="nav-link">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="nav-link" style="background:none;border:none;padding:0;margin:0;cursor:pointer;display:flex;align-items:center;width:100%;">
                                     <i class="nav-icon fas fa-sign-out-alt"></i>
-                                    <p>Logout</p>
-                                </a>
+                                        <p style="margin-bottom:0;margin-left:8px;">Logout</p>
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </nav>
@@ -347,5 +350,6 @@
             }
         });
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     </body>
 </html>

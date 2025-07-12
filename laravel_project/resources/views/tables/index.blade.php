@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-4" x-data="{ showTambah: false }">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3>Form Meja (table)</h3>
-        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addDataModal">
+        <a href="{{ route('tables.create') }}" class="btn btn-primary btn-sm">
             <i class="fas fa-plus"></i> Tambah
-        </button>
+        </a>
     </div>
     <form method="GET" action="" class="mb-3">
         <div class="input-group" style="max-width: 350px;">
@@ -135,42 +135,22 @@
 </div>
 
 <!-- Modal Tambah Data -->
-<div class="modal fade" id="addDataModal" tabindex="-1" aria-labelledby="addDataModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<x-admin-modal title="Tambah Meja">
             <form method="POST" action="{{ route('tables.store') }}">
                 @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title">Tambah Meja</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="number" class="form-label">Nomor Meja</label>
-                        <input type="number" class="form-control" id="number" name="number" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="kapasitas" class="form-label">Kapasitas</label>
-                        <input type="number" class="form-control" id="kapasitas" name="kapasitas" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-control" id="status" name="status" required>
+        <label for="number">Nomor Meja</label>
+        <input type="number" id="number" name="number" required>
+        <label for="kapasitas">Kapasitas</label>
+        <input type="number" id="kapasitas" name="kapasitas" required>
+        <label for="status">Status</label>
+        <select id="status" name="status" required>
                             <option value="tersedia">Tersedia</option>
                             <option value="digunakan">Digunakan</option>
                             <option value="tidak tersedia">Tidak Tersedia</option>
                         </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="lokasi" class="form-label">Lokasi <span class="text-muted">(opsional)</span></label>
-                        <input type="text" class="form-control" id="lokasi" name="lokasi">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
+        <label for="lokasi">Lokasi <span style="color:#e0b873;font-size:0.95em;">(opsional)</span></label>
+        <input type="text" id="lokasi" name="lokasi">
+        <button type="submit" class="btn-simpan">Simpan</button>
             </form>
-        </div>
-    </div>
-</div>
+</x-admin-modal>
 @endsection

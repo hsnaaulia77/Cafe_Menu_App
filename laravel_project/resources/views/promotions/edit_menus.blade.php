@@ -7,18 +7,10 @@
         @csrf
         @method('PUT')
         <div class="mb-3">
-            <label for="menu_item_ids" class="form-label">Pilih Menu:</label>
-            <select name="menu_item_ids[]" id="menu_item_ids" class="form-control select2" multiple>
-                @foreach($allMenus as $menu)
-                    <option value="{{ $menu->id }}" {{ $promotion->menuItems->contains($menu->id) ? 'selected' : '' }}>
-                        {{ $menu->nama }}
-                    </option>
-                @endforeach
-            </select>
-            @error('menu_item_ids')
-                <div class="text-danger small mt-1">{{ $message }}</div>
-            @enderror
-            @error('menu_item_ids.*')
+            <label for="menu_berlaku_manual" class="form-label">Menu Berlaku (Manual)</label>
+            <input type="text" name="menu_berlaku_manual" id="menu_berlaku_manual" class="form-control" value="{{ old('menu_berlaku_manual', $promotion->menuItems->pluck('nama')->implode(', ')) }}" required>
+            <small class="text-muted">Masukkan nama menu yang mendapatkan promo ini, pisahkan dengan koma jika lebih dari satu.</small>
+            @error('menu_berlaku_manual')
                 <div class="text-danger small mt-1">{{ $message }}</div>
             @enderror
         </div>

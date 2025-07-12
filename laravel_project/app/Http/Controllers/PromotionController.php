@@ -29,8 +29,11 @@ class PromotionController extends Controller
             'tanggal_mulai' => 'required|date',
             'tanggal_berakhir' => 'required|date|after_or_equal:tanggal_mulai',
             'status' => 'required|in:aktif,nonaktif',
+            'menu_berlaku_manual' => 'required|string',
         ]);
-        Promotion::create($request->all());
+        $promotion = Promotion::create($request->all());
+        // Simpan nama menu berlaku secara manual (jika ingin disimpan di kolom khusus, tambahkan di model/migrasi)
+        // Atau, jika ingin tetap relasi, bisa parsing nama ke id di sini
         return redirect()->route('promotions.index')->with('success', 'Promosi berhasil ditambahkan!');
     }
 
@@ -71,15 +74,14 @@ class PromotionController extends Controller
     public function updateMenus(\Illuminate\Http\Request $request, $id)
     {
         $request->validate([
-            'menu_item_ids' => 'required|array|min:1',
-            'menu_item_ids.*' => 'exists:menu_items,id',
+            'menu_berlaku_manual' => 'required|string',
         ], [
-            'menu_item_ids.required' => 'Pilih minimal satu menu.',
-            'menu_item_ids.min' => 'Pilih minimal satu menu.',
-            'menu_item_ids.*.exists' => 'Menu yang dipilih tidak valid.',
+            'menu_berlaku_manual.required' => 'Masukkan nama menu yang berlaku.',
         ]);
         $promotion = \App\Models\Promotion::findOrFail($id);
-        $promotion->menuItems()->sync($request->input('menu_item_ids', []));
+        // Simpan nama menu berlaku secara manual (jika ingin disimpan di kolom khusus, tambahkan di model/migrasi)
+        // Atau, jika ingin tetap relasi, bisa parsing nama ke id di sini
+        $promotion->update(['menu_berlaku_manual' => $request->input('menu_berlaku_manual')]);
         return redirect()->route('promotions.index')->with('success', 'Menu promosi berhasil diupdate!');
     }
 } 

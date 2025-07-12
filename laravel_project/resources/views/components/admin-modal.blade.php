@@ -1,6 +1,6 @@
-<div class="admin-modal-bg" x-data="{ show: @js($show ?? true) }" x-show="show" style="display: none;">
+<div class="admin-modal-bg" x-show="showTambah" style="display: none;">
     <div class="admin-modal-card">
-        <button class="admin-modal-close" @click="show = false">&times;</button>
+        <button class="admin-modal-close" @click="showTambah = false">&times;</button>
         <h2>{{ $title ?? '' }}</h2>
         {{ $slot }}
     </div>

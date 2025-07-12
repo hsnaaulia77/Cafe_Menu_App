@@ -37,13 +37,21 @@
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-control" id="status" name="status" required>
-                                <option value="aktif" {{ old('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                                <option value="tidak aktif" {{ old('status') == 'tidak aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                                <option value="tersedia" {{ old('status') == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                                <option value="tidak tersedia" {{ old('status') == 'tidak tersedia' ? 'selected' : '' }}>Tidak Tersedia</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="stok" class="form-label">Stok <span class="text-muted">(opsional)</span></label>
                             <input type="number" class="form-control" id="stok" name="stok" value="{{ old('stok') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="promo_aktif" class="form-label">Promo Aktif</label>
+                            <select class="form-control" id="promo_aktif" name="promo_aktif" required>
+                                <option value="aktif" {{ old('promo_aktif') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                                <option value="tidak_aktif" {{ old('promo_aktif') == 'tidak_aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                            </select>
+                            <small class="text-muted">Pilih status promosi untuk menu ini.</small>
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                         <a href="{{ route('menu_items.index') }}" class="btn btn-secondary">Batal</a>
